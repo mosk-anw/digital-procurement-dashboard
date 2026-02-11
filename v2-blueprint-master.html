@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project X: Complete AI Purchase Manager Master Blueprint</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; scroll-behavior: smooth; }
+        .hero-bg { background: radial-gradient(circle at 0% 0%, #1e1b4b 0%, #0f172a 100%); }
+        .glass-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        .arch-block { cursor: pointer; transition: all 0.2s; border: 2px solid #e2e8f0; }
+        .arch-block:hover { border-color: #3b82f6; background-color: #eff6ff; transform: translateY(-2px); }
+        .arch-block.active { border-color: #2563eb; background-color: #dbeafe; ring: 4px rgba(59, 130, 246, 0.1); }
+        .sprint-card { transition: all 0.3s ease; border: 1px solid #e2e8f0; }
+        .sprint-card.active { border-color: #2563eb; background-color: #eff6ff; box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.1); }
+        .chart-container { position: relative; width: 100%; height: 280px; }
+        input[type="range"] { accent-color: #2563eb; }
+    </style>
+</head>
+<body class="text-slate-900">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold">X</div>
+                <span class="text-xl font-bold tracking-tight text-slate-900">Project X <span class="text-blue-600 font-medium text-xs uppercase tracking-widest ml-1">Master</span></span>
+            </div>
+            <div class="hidden lg:flex space-x-8 text-sm font-semibold text-slate-600">
+                <a href="#vision" class="hover:text-blue-600 transition">Vision</a>
+                <a href="#transformation" class="hover:text-blue-600 transition">Transformation</a>
+                <a href="#architecture" class="hover:text-blue-600 transition">Architecture</a>
+                <a href="#ai-demo" class="hover:text-blue-600 transition">AI Engine</a>
+                <a href="#roadmap" class="hover:text-blue-600 transition">Roadmap</a>
+                <a href="#roi" class="hover:text-blue-600 transition">ROI</a>
+            </div>
+            <button class="bg-slate-900 text-white px-5 py-2 rounded-full text-sm font-bold hover:bg-blue-700 transition">Executive Summary</button>
+        </div>
+    </nav>
+
+    <!-- 1. Hero Section -->
+    <header id="vision" class="hero-bg pt-24 pb-20 text-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <span class="inline-block py-1 px-3 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold uppercase tracking-widest mb-6">AI Purchase Manager v1.0</span>
+                    <h1 class="text-5xl lg:text-6xl font-extrabold mb-6 leading-tight">The Future of F&B is <span class="text-blue-400">Agentic.</span></h1>
+                    <p class="text-slate-400 text-lg mb-8 leading-relaxed">
+                        Replacing fragmented WhatsApp chaos with a closed-loop platform. Connect demand to supply, normalize messy data, and protect margins through automated 3-way matching.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="bg-white/5 border border-white/10 p-5 rounded-2xl">
+                            <div class="text-2xl font-bold text-blue-400">12-18%</div>
+                            <div class="text-[10px] uppercase text-slate-500 tracking-widest mt-1">Margin Leakage Prevented</div>
+                        </div>
+                        <div class="bg-white/5 border border-white/10 p-5 rounded-2xl">
+                            <div class="text-2xl font-bold text-emerald-400">100%</div>
+                            <div class="text-[10px] uppercase text-slate-500 tracking-widest mt-1">Audit Transparency</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white/10 p-8 rounded-[2.5rem] border border-white/10 backdrop-blur-sm">
+                    <h3 class="text-xl font-bold mb-4 text-blue-300">Core Objectives</h3>
+                    <ul class="space-y-4 text-sm">
+                        <li class="flex items-start">
+                            <span class="bg-blue-500/20 text-blue-300 p-1 rounded-md mr-3 text-xs">01</span>
+                            <span><strong>Standardize Data:</strong> Map "Tomato 5kg" and "Box of Tomato" to one Master SKU.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-blue-500/20 text-blue-300 p-1 rounded-md mr-3 text-xs">02</span>
+                            <span><strong>Automate Logistics:</strong> Split POs across multiple suppliers based on price benchmarks.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-blue-500/20 text-blue-300 p-1 rounded-md mr-3 text-xs">03</span>
+                            <span><strong>Secure Backdoor:</strong> GRN (Receiving) as the source of truth for payment.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. Transformation (Old vs New) -->
+    <section id="transformation" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold">The Transformation</h2>
+                <p class="text-slate-500 mt-2">How Project X fixes the broken connection between Restaurant and Supplier.</p>
+            </div>
+
+            <div class="flex justify-center mb-10">
+                <div class="bg-slate-100 p-1 rounded-xl inline-flex shadow-inner">
+                    <button id="btn-current" onclick="toggleFlow('current')" class="px-8 py-2.5 rounded-lg font-bold text-sm transition-all bg-white text-blue-600 shadow-sm">Current Chaos</button>
+                    <button id="btn-future" onclick="toggleFlow('future')" class="px-8 py-2.5 rounded-lg font-bold text-sm text-slate-500 transition-all">Future (AI Agent)</button>
+                </div>
+            </div>
+
+            <div id="flow-container" class="bg-slate-50 rounded-[3rem] p-10 border border-slate-200 shadow-inner">
+                <!-- Content Injected via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Technical Architecture (Interactive Blocks) -->
+    <section id="architecture" class="py-20 bg-slate-50 border-y border-slate-200">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-4">Technical Architecture</h2>
+            <p class="text-slate-500 mb-12 max-w-2xl">Built on a three-tier architecture: Experience Layer (Web/Mobile), Intelligence Layer (AI Agent), and Transactional Layer (Medusa.js Core).</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-10">
+                <div class="space-y-4">
+                    <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center">Experience</div>
+                    <div onclick="showTech('restaurant')" id="t-restaurant" class="arch-block active p-5 bg-white rounded-2xl text-center">
+                        <div class="font-bold">Restaurant App</div>
+                        <div class="text-xs text-slate-500">Next.js / PWA</div>
+                    </div>
+                    <div onclick="showTech('supplier')" id="t-supplier" class="arch-block p-5 bg-white rounded-2xl text-center">
+                        <div class="font-bold">Supplier Portal</div>
+                        <div class="text-xs text-slate-500">React Dashboard</div>
+                    </div>
+                </div>
+                <div class="flex flex-col justify-center">
+                    <div onclick="showTech('gateway')" id="t-gateway" class="arch-block p-5 bg-indigo-50 border-indigo-200 rounded-2xl text-center h-48 flex flex-col justify-center">
+                        <div class="font-bold text-indigo-900">API Gateway</div>
+                        <div class="text-xs text-indigo-600">FastAPI / GraphQL</div>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center">Logic & Intelligence</div>
+                    <div onclick="showTech('ai')" id="t-ai" class="arch-block p-5 bg-purple-50 border-purple-200 rounded-2xl text-center">
+                        <div class="font-bold text-purple-900">AI Data Engine</div>
+                        <div class="text-xs text-purple-600">LangChain / Python</div>
+                    </div>
+                    <div onclick="showTech('core')" id="t-core" class="arch-block p-5 bg-blue-50 border-blue-200 rounded-2xl text-center">
+                        <div class="font-bold text-blue-900">Core Commerce</div>
+                        <div class="text-xs text-blue-600">Medusa.js / Node</div>
+                    </div>
+                </div>
+                <div class="flex flex-col justify-center">
+                    <div onclick="showTech('db')" id="t-db" class="arch-block p-5 bg-slate-900 border-slate-700 rounded-2xl text-center text-white h-48 flex flex-col justify-center">
+                        <div class="font-bold">Primary DB</div>
+                        <div class="text-xs text-slate-400">PostgreSQL / Vector</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tech-panel" class="bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm min-h-[160px]">
+                <!-- Tech detail injected here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. AI Engine Demo (SKU Normalization) -->
+    <section id="ai-demo" class="py-20 bg-slate-900 text-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h2 class="text-4xl font-bold mb-6">The AI Engine</h2>
+                    <p class="text-slate-400 mb-8 leading-relaxed">
+                        The "Data Normalization" problem is what kills F&B margins. Our AI maps messy supplier naming to a Master SKU Layer automatically.
+                    </p>
+                    <button onclick="runSim()" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-bold transition shadow-lg shadow-blue-500/20">
+                        Run Normalization Demo
+                    </button>
+                </div>
+                <div class="bg-slate-800 rounded-[2.5rem] p-8 border border-slate-700 shadow-2xl">
+                    <div class="flex justify-between items-center mb-6">
+                        <span class="text-[10px] font-mono text-slate-500 tracking-widest">AGENT_LOG :: SKU_MAPPER</span>
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="bg-slate-950 p-4 rounded-xl">
+                            <div class="text-[10px] text-slate-500 uppercase mb-2">Raw Input</div>
+                            <div id="sim-in" class="text-sm font-mono text-red-400 h-24 overflow-y-auto">Ready...</div>
+                        </div>
+                        <div class="bg-slate-950 p-4 rounded-xl">
+                            <div class="text-[10px] text-slate-500 uppercase mb-2">Normalized Output</div>
+                            <div id="sim-out" class="text-sm font-mono text-emerald-400 h-24 overflow-y-auto">...</div>
+                        </div>
+                    </div>
+                    <div id="sim-status" class="text-xs text-center text-slate-500 italic">Standby</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. 6-Sprint Roadmap -->
+    <section id="roadmap" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col lg:flex-row gap-16">
+                <div class="lg:w-1/3">
+                    <h2 class="text-3xl font-bold mb-4">6-Sprint Roadmap</h2>
+                    <p class="text-slate-500 mb-10 text-sm">12 weeks from Architecture to Audit Readiness.</p>
+                    <div class="space-y-3" id="sprint-nav">
+                        <!-- Navigation injected via JS -->
+                    </div>
+                </div>
+                <div class="lg:w-2/3">
+                    <div id="sprint-content" class="bg-slate-50 rounded-[2.5rem] p-10 border border-slate-200 h-full">
+                        <!-- Detail injected via JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. ROI Calculator -->
+    <section id="roi" class="py-20 bg-slate-900">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="bg-blue-600 rounded-[4rem] p-12 lg:p-16 text-white grid grid-cols-1 lg:grid-cols-2 gap-16">
+                <div>
+                    <h2 class="text-4xl font-bold mb-6">Value Blueprint</h2>
+                    <p class="text-blue-100 mb-12">Project X recovers profit lost to fragmented ordering. Every AED spent is tracked and benchmarked.</p>
+                    <div class="space-y-10">
+                        <div>
+                            <div class="flex justify-between mb-4">
+                                <span class="text-xs font-bold uppercase text-blue-200">Group Outlets</span>
+                                <span id="val-outlets" class="text-2xl font-bold">10</span>
+                            </div>
+                            <input type="range" id="in-outlets" min="1" max="50" value="10" class="w-full">
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-4">
+                                <span class="text-xs font-bold uppercase text-blue-200">Avg. Monthly Spend (AED)</span>
+                                <span id="val-spend" class="text-2xl font-bold">150,000</span>
+                            </div>
+                            <input type="range" id="in-spend" min="10000" max="500000" step="10000" value="150000" class="w-full">
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-[3rem] p-10 text-slate-900 shadow-2xl">
+                    <div class="text-center mb-6">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Est. Yearly Profit Recovery</span>
+                        <div id="val-total" class="text-5xl font-black text-blue-600 mt-2">AED 1,260,000</div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="roiChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 text-center text-slate-400 text-[10px] font-bold uppercase tracking-widest">
+        Project X Proprietary Blueprint | Confidential & Technical Asset
+    </footer>
+
+    <script>
+        // --- DATA DEFS ---
+        const flows = {
+            current: {
+                title: "Manual Chaos (Old Way)",
+                color: "bg-red-50 border-red-200",
+                steps: [
+                    { icon: "👨‍🍳", t: "Chef Checks", d: "Manual stock check on paper/whiteboard." },
+                    { icon: "📱", t: "WhatsApp", d: "Sends 15 messages to different suppliers." },
+                    { icon: "🚚", t: "Paper GRN", d: "Driver drops boxes. Invoice is hand-written." },
+                    { icon: "📉", t: "Leakage", d: "Prices vary, items missing. 5-8% margin lost." }
+                ]
+            },
+            future: {
+                title: "AI Agent Control (New Way)",
+                color: "bg-blue-50 border-blue-200",
+                steps: [
+                    { icon: "📊", t: "Auto-Demand", d: "POS data predicts stock needs accurately." },
+                    { icon: "🤖", t: "AI Splitting", d: "Agent routes orders to best priced suppliers." },
+                    { icon: "📱", t: "Digital GRN", d: "Digital check-in at the door. 100% variance tracking." },
+                    { icon: "💰", t: "3-Way Match", d: "Clean data flows to Xero. No manual entry." }
+                ]
+            }
+        };
+
+        const techs = {
+            restaurant: { t: "Restaurant PWA", d: "A high-performance mobile-first app for Chefs to receive goods and perform stock-takes. Uses Next.js for SSR and offline-first capabilities." },
+            supplier: { t: "Supplier Portal", d: "Web-based dashboard for suppliers to confirm orders, update pricing, and view demand forecasts. React + Tailwind." },
+            gateway: { t: "Unified API Gateway", d: "Central node using FastAPI (Python) or GraphQL to route requests between the frontend apps and the Medusa.js core." },
+            ai: { t: "AI Engine", d: "The 'Brain'. Uses LangChain for SKU normalization, OpenAI for text-to-data parsing, and Prophet for demand forecasting." },
+            core: { t: "Medusa.js Core", d: "Headless commerce engine. Handles the 'Transactional' side: Users, Carts, Orders, and Multi-tenant partitioning." },
+            db: { t: "Persistence Layer", d: "PostgreSQL for relational order data + pgvector for semantic SKU matching and search." }
+        };
+
+        const sprints = [
+            { id: 1, t: "SaaS Foundation", d: "Multi-tenant logic and Auth core. Setting up the 'Group vs Outlet' hierarchy.", tech: "Medusa.js, PostgreSQL" },
+            { id: 2, t: "AI SKU Engine", d: "Normalization logic. Mapping supplier items to Master SKUs using LangChain.", tech: "Python, OpenAI" },
+            { id: 3, t: "Order Flow (LPO)", d: "Digital PO generation and multi-supplier routing engine.", tech: "Node.js, WhatsApp API" },
+            { id: 4, t: "Mobile Receiver", d: "Digital GRN (Goods Received Note) app for backdoor validation.", tech: "Next.js, PWA" },
+            { id: 5, t: "Agentic Predictive", d: "Predictive demand forecasting and auto-drafting orders.", tech: "Prophet ML, VectorDB" },
+            { id: 6, t: "Audit & Finance", d: "3-Way Matching and Foodics POS real-time sync.", tech: "Xero API, Foodics API" }
+        ];
+
+        // --- LOGIC ---
+        function toggleFlow(mode) {
+            const container = document.getElementById('flow-container');
+            const data = flows[mode];
+            document.getElementById('btn-current').className = mode === 'current' ? "px-8 py-2.5 rounded-lg font-bold text-sm bg-white text-red-600 shadow-sm" : "px-8 py-2.5 rounded-lg font-bold text-sm text-slate-500";
+            document.getElementById('btn-future').className = mode === 'future' ? "px-8 py-2.5 rounded-lg font-bold text-sm bg-white text-blue-600 shadow-sm" : "px-8 py-2.5 rounded-lg font-bold text-sm text-slate-500";
+            
+            container.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    ${data.steps.map(s => `
+                        <div class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm text-center">
+                            <div class="text-4xl mb-4">${s.icon}</div>
+                            <div class="font-bold text-slate-900 mb-2">${s.t}</div>
+                            <div class="text-xs text-slate-500">${s.d}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function showTech(id) {
+            document.querySelectorAll('.arch-block').forEach(b => b.classList.remove('active'));
+            document.getElementById(`t-${id}`).classList.add('active');
+            const data = techs[id];
+            document.getElementById('tech-panel').innerHTML = `
+                <h3 class="text-xl font-bold mb-2">${data.t}</h3>
+                <p class="text-slate-600 leading-relaxed">${data.d}</p>
+            `;
+        }
+
+        function showSprint(id) {
+            const s = sprints.find(x => x.id === id);
+            document.querySelectorAll('.sprint-card').forEach(b => b.classList.remove('active'));
+            document.getElementById(`s-${id}`).classList.add('active');
+            document.getElementById('sprint-content').innerHTML = `
+                <div class="flex justify-between items-start mb-6">
+                    <span class="text-blue-600 font-bold uppercase tracking-widest text-xs">Sprint ${s.id}</span>
+                    <span class="text-slate-400 font-mono text-xs">${s.tech}</span>
+                </div>
+                <h3 class="text-3xl font-bold mb-6">${s.t}</h3>
+                <p class="text-lg text-slate-600 leading-relaxed mb-8">${s.d}</p>
+                <div class="p-6 bg-white rounded-2xl border border-slate-100 italic text-sm text-slate-500">
+                    Acceptance Test: "Can the system correctly perform ${s.t.toLowerCase()} for a multi-tenant user?"
+                </div>
+            `;
+        }
+
+        async function runSim() {
+            const input = document.getElementById('sim-in');
+            const output = document.getElementById('sim-out');
+            const status = document.getElementById('sim-status');
+            
+            const raw = ["'Tomato 5kg box'", "'Tomatoes Loose 1kg'", "'Fresh Tomatos (Red)'"];
+            const norm = "MASTER SKU: [VEG-TOM-01] - Fresh Tomato (KG)";
+            
+            input.innerText = ""; output.innerText = "";
+            status.innerText = "Processing fuzzy match...";
+
+            for (let item of raw) {
+                input.innerHTML += `${item}\n`;
+                await new Promise(r => setTimeout(r, 600));
+            }
+            
+            status.innerText = "Mapping semantics...";
+            await new Promise(r => setTimeout(r, 800));
+            output.innerText = norm;
+            status.innerText = "Confidence: 98.4%";
+        }
+
+        let roiChart = null;
+        function updateROI() {
+            const outlets = document.getElementById('in-outlets').value;
+            const spend = document.getElementById('in-spend').value;
+            document.getElementById('val-outlets').innerText = outlets;
+            document.getElementById('val-spend').innerText = parseInt(spend).toLocaleString();
+
+            const totalMonthly = outlets * spend;
+            const savings = totalMonthly * 0.07 * 12;
+            document.getElementById('val-total').innerText = `AED ${Math.round(savings).toLocaleString()}`;
+
+            if(roiChart) {
+                roiChart.data.datasets[0].data = [70, 15, 10, 5];
+                roiChart.update();
+            }
+        }
+
+        window.onload = () => {
+            toggleFlow('future');
+            showTech('restaurant');
+            
+            // Render Sprint Nav
+            const nav = document.getElementById('sprint-nav');
+            sprints.forEach(s => {
+                nav.innerHTML += `
+                    <div onclick="showSprint(${s.id})" id="s-${s.id}" class="sprint-card p-4 rounded-xl cursor-pointer">
+                        <div class="text-[10px] font-bold text-slate-400">SPRINT 0${s.id}</div>
+                        <div class="font-bold text-sm">${s.t}</div>
+                    </div>
+                `;
+            });
+            showSprint(1);
+
+            // Chart
+            const ctx = document.getElementById('roiChart').getContext('2d');
+            roiChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Food Cost', 'Manual Waste', 'Admin Labor', 'Recovered Margin'],
+                    datasets: [{
+                        data: [75, 12, 10, 3],
+                        backgroundColor: ['#f1f5f9', '#f87171', '#94a3b8', '#3b82f6'],
+                        borderWidth: 0
+                    }]
+                },
+                options: { maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } }, cutout: '80%' }
+            });
+
+            document.getElementById('in-outlets').addEventListener('input', updateROI);
+            document.getElementById('in-spend').addEventListener('input', updateROI);
+        };
+    </script>
+</body>
+</html>

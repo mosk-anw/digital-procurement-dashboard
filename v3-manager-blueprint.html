@@ -1,0 +1,1059 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project X: AI Purchase Manager Blueprint</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f8fafc;
+      }
+      .chart-container {
+        position: relative;
+        width: 100%;
+        height: 300px;
+      }
+      .interactive-card {
+        transition: all 0.3s ease;
+      }
+      .interactive-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      }
+      .step-line {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 2px;
+        height: 100%;
+        background-color: #e2e8f0;
+        z-index: 0;
+      }
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+      }
+
+      /* Custom Scrollbar for internal containers */
+      .custom-scroll::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      .custom-scroll::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+      .custom-scroll::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 3px;
+      }
+      .custom-scroll::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+      }
+
+      .arch-block {
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .arch-block:hover {
+        border-color: #3b82f6;
+        background-color: #eff6ff;
+      }
+      .arch-block.active {
+        border-color: #2563eb;
+        background-color: #dbeafe;
+        ring: 2px;
+        ring-color: #bfdbfe;
+      }
+    </style>
+    <!-- Chosen Palette: Corporate Blue & Slate (Trust, Technology, Clarity) -->
+    <!-- Application Structure Plan: 
+         1. Hero Section: High-level value prop and quick stats.
+         2. Context/Problem: Comparison of "Old Way" vs "New AI Way" to explain the supply chain shift.
+         3. Solution Journey: Step-by-step flow of the "Digital Procurement Manager" agent.
+         4. Technical Architecture: Interactive diagram addressing user's specific tech stack questions.
+         5. AI Demo: A functional simulation of SKU normalization logic.
+         6. Roadmap: Timeline visualization of the sprints defined in the source text.
+         7. Competitive Landscape: Chart comparing features against market rivals.
+    -->
+    <!-- Visualization & Content Choices:
+         - Flowcharts constructed via CSS Grid/Flex for Architecture to avoid SVG/Mermaid.
+         - Interactive 'Cards' for the Journey to allow detailed exploration of each step without clutter.
+         - Chart.js for Market/Competitor analysis.
+         - Dynamic Text injection for the 'AI Simulator' to prove the concept.
+         - Justification: The user needs to understand complex systems (Architecture) and abstract concepts (AI Normalization). 
+           Static text isn't enough; interactive block diagrams and simulators bridge the gap.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+  </head>
+  <body class="text-slate-800">
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+          <div class="flex items-center">
+            <span class="text-2xl font-bold text-blue-900"
+              >Project X
+              <span class="text-blue-500 text-base font-normal"
+                >| AI Purchase Manager</span
+              ></span
+            >
+          </div>
+          <div class="hidden md:flex items-center space-x-8">
+            <button
+              onclick="scrollToSection('vision')"
+              class="text-slate-600 hover:text-blue-600 font-medium"
+            >
+              Vision
+            </button>
+            <button
+              onclick="scrollToSection('journey')"
+              class="text-slate-600 hover:text-blue-600 font-medium"
+            >
+              The Journey
+            </button>
+            <button
+              onclick="scrollToSection('architecture')"
+              class="text-slate-600 hover:text-blue-600 font-medium"
+            >
+              Architecture
+            </button>
+            <button
+              onclick="scrollToSection('ai-core')"
+              class="text-slate-600 hover:text-blue-600 font-medium"
+            >
+              AI Core
+            </button>
+            <button
+              onclick="scrollToSection('roadmap')"
+              class="text-slate-600 hover:text-blue-600 font-medium"
+            >
+              Roadmap
+            </button>
+          </div>
+          <!-- Mobile menu button placeholder -->
+          <div class="md:hidden flex items-center">
+            <button
+              class="text-slate-500 hover:text-slate-700 focus:outline-none"
+            >
+              Menu
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header
+      id="vision"
+      class="bg-gradient-to-r from-slate-900 to-blue-900 text-white py-16"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+              The Future of F&B Procurement is
+              <span class="text-blue-400">Agentic</span>
+            </h1>
+            <p class="text-lg text-slate-300 mb-8">
+              A closed-loop platform connecting restaurants and suppliers.
+              Replace fragmented WhatsApp chaos with a
+              <strong>Digital Procurement Manager</strong> that automates
+              ordering, normalizes data, and protects margins.
+            </p>
+            <div class="flex space-x-4">
+              <button
+                onclick="scrollToSection('journey')"
+                class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition shadow-lg"
+              >
+                Explore the Journey
+              </button>
+              <button
+                onclick="scrollToSection('architecture')"
+                class="bg-transparent border border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-slate-900 transition"
+              >
+                View Architecture
+              </button>
+            </div>
+          </div>
+          <div
+            class="bg-white/10 p-6 rounded-xl backdrop-blur-sm border border-white/20"
+          >
+            <h3
+              class="text-xl font-semibold mb-4 border-b border-white/20 pb-2"
+            >
+              Core Objectives
+            </h3>
+            <ul class="space-y-3">
+              <li class="flex items-start">
+                <span class="bg-green-500/20 text-green-300 p-1 rounded mr-3"
+                  >✓</span
+                >
+                <span
+                  ><strong>Eliminate Margin Leakage:</strong> Stop overpaying
+                  due to lack of price comparison.</span
+                >
+              </li>
+              <li class="flex items-start">
+                <span class="bg-green-500/20 text-green-300 p-1 rounded mr-3"
+                  >✓</span
+                >
+                <span
+                  ><strong>Standardize Data:</strong> Map "Tomatoes 5kg" and
+                  "Box of Tomato" to a single SKU.</span
+                >
+              </li>
+              <li class="flex items-start">
+                <span class="bg-green-500/20 text-green-300 p-1 rounded mr-3"
+                  >✓</span
+                >
+                <span
+                  ><strong>Audit & Compliance:</strong> 3-Way matching (PO, GRN,
+                  Invoice) as the "Source of Truth".</span
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Section: The Transformation (Supply Chain) -->
+    <section id="transformation" class="py-16 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold text-slate-900">
+            Transforming the Supply Chain
+          </h2>
+          <p class="mt-4 text-slate-600 max-w-3xl mx-auto">
+            Currently, the connection between restaurants and suppliers is
+            broken. Here is how "Project X" fixes the flow using AI Agents.
+          </p>
+        </div>
+
+        <div class="flex justify-center mb-8">
+          <div class="bg-slate-100 p-1 rounded-lg inline-flex">
+            <button
+              id="btn-current"
+              onclick="toggleSupplyChain('current')"
+              class="px-6 py-2 rounded-md font-medium text-sm transition-all bg-white text-blue-600 shadow-sm"
+            >
+              Current State (Chaos)
+            </button>
+            <button
+              id="btn-future"
+              onclick="toggleSupplyChain('future')"
+              class="px-6 py-2 rounded-md font-medium text-sm text-slate-500 hover:text-slate-700 transition-all"
+            >
+              Future State (AI Agent)
+            </button>
+          </div>
+        </div>
+
+        <!-- Dynamic Content Area for Supply Chain -->
+        <div
+          id="supply-chain-content"
+          class="bg-slate-50 rounded-2xl p-8 border border-slate-200 shadow-inner min-h-[400px]"
+        >
+          <!-- Content injected via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: The User Journey (Digital Procurement Manager) -->
+    <section id="journey" class="py-16 bg-slate-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-10">
+          <h2 class="text-3xl font-bold text-slate-900">
+            Meet Your Digital Procurement Manager
+          </h2>
+          <p class="mt-4 text-slate-600">
+            The "AI Agent" isn't just a chatbot; it's a workflow engine. It
+            orchestrates the entire procurement lifecycle with a
+            "Human-in-the-Loop" for approvals.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <!-- Left: Steps List -->
+          <div class="lg:col-span-4 space-y-4">
+            <button
+              onclick="setJourneyStep(0)"
+              id="step-btn-0"
+              class="w-full text-left p-4 rounded-lg bg-blue-600 text-white shadow-lg transition-all flex items-center"
+            >
+              <div
+                class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center mr-3 font-bold"
+              >
+                1
+              </div>
+              <div>
+                <div class="font-bold">Demand & Order Gen</div>
+                <div class="text-xs opacity-90">
+                  Chef requests -> AI Drafts PO
+                </div>
+              </div>
+            </button>
+            <button
+              onclick="setJourneyStep(1)"
+              id="step-btn-1"
+              class="w-full text-left p-4 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 transition-all flex items-center"
+            >
+              <div
+                class="w-8 h-8 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center mr-3 font-bold"
+              >
+                2
+              </div>
+              <div>
+                <div class="font-bold text-slate-800">Supplier Selection</div>
+                <div class="text-xs text-slate-500">
+                  AI finds best price & splits POs
+                </div>
+              </div>
+            </button>
+            <button
+              onclick="setJourneyStep(2)"
+              id="step-btn-2"
+              class="w-full text-left p-4 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 transition-all flex items-center"
+            >
+              <div
+                class="w-8 h-8 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center mr-3 font-bold"
+              >
+                3
+              </div>
+              <div>
+                <div class="font-bold text-slate-800">Fulfillment & GRN</div>
+                <div class="text-xs text-slate-500">
+                  Physical Check vs Digital Order
+                </div>
+              </div>
+            </button>
+            <button
+              onclick="setJourneyStep(3)"
+              id="step-btn-3"
+              class="w-full text-left p-4 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 transition-all flex items-center"
+            >
+              <div
+                class="w-8 h-8 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center mr-3 font-bold"
+              >
+                4
+              </div>
+              <div>
+                <div class="font-bold text-slate-800">Payment & Audit</div>
+                <div class="text-xs text-slate-500">
+                  3-Way Match & Auto-Payment
+                </div>
+              </div>
+            </button>
+          </div>
+
+          <!-- Right: Step Detail View -->
+          <div class="lg:col-span-8">
+            <div
+              id="journey-detail"
+              class="bg-white rounded-xl shadow-lg border border-slate-100 p-8 h-full"
+            >
+              <!-- Content injected via JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Technical Architecture -->
+    <section id="architecture" class="py-16 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-10">
+          <h2 class="text-3xl font-bold text-slate-900">
+            Technical Architecture & Stack
+          </h2>
+          <p class="mt-4 text-slate-600 max-w-4xl">
+            Building a robust "Digital Procurement Manager" requires a tiered
+            architecture. We separate the **Experience Layer** (Apps) from the
+            **Intelligence Layer** (AI) and the **Transactional Layer** (Core
+            Logic).
+          </p>
+          <div
+            class="mt-4 p-4 bg-blue-50 border border-blue-100 rounded-lg text-sm text-blue-800"
+          >
+            <strong>Note on "Medusa":</strong> Medusa.js is excellent as the
+            headless commerce engine (handling products, carts, orders).
+            However, for the complex "Many-to-Many" logic of procurement (1
+            Restaurant -> 10 Suppliers, splitting 1 PO into 5), we need a custom
+            logic layer on top, or heavy customization of Medusa's plugins.
+          </div>
+        </div>
+
+        <!-- Architecture Diagram Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
+          <!-- Frontend Layer -->
+          <div class="lg:col-span-1 space-y-4">
+            <div
+              class="text-center font-bold text-slate-500 uppercase tracking-wider text-xs mb-2"
+            >
+              Experience Layer (Frontend)
+            </div>
+            <div
+              onclick="showTechDetail('restaurant-app')"
+              class="arch-block p-4 bg-white border-2 border-slate-200 rounded-lg shadow-sm text-center"
+            >
+              <div class="font-bold text-slate-800">Restaurant App</div>
+              <div class="text-xs text-slate-500 mt-1">PWA / Mobile</div>
+            </div>
+            <div
+              onclick="showTechDetail('supplier-portal')"
+              class="arch-block p-4 bg-white border-2 border-slate-200 rounded-lg shadow-sm text-center"
+            >
+              <div class="font-bold text-slate-800">Supplier Portal</div>
+              <div class="text-xs text-slate-500 mt-1">Web Dashboard</div>
+            </div>
+            <div
+              onclick="showTechDetail('admin-panel')"
+              class="arch-block p-4 bg-white border-2 border-slate-200 rounded-lg shadow-sm text-center"
+            >
+              <div class="font-bold text-slate-800">Super Admin</div>
+              <div class="text-xs text-slate-500 mt-1">Platform Mgmt</div>
+            </div>
+          </div>
+
+          <!-- API Gateway & Auth -->
+          <div class="lg:col-span-1 flex flex-col justify-center space-y-4">
+            <div
+              class="text-center font-bold text-slate-500 uppercase tracking-wider text-xs mb-2"
+            >
+              Connectivity
+            </div>
+            <div
+              onclick="showTechDetail('api-gateway')"
+              class="arch-block p-4 bg-indigo-50 border-2 border-indigo-200 rounded-lg shadow-sm text-center h-full flex flex-col justify-center"
+            >
+              <div class="font-bold text-indigo-900">API Gateway</div>
+              <div class="text-xs text-indigo-700 mt-1">
+                Load Balancer / Rate Limit
+              </div>
+              <div class="text-xs text-indigo-600 mt-2 font-mono">
+                REST + GraphQL
+              </div>
+            </div>
+          </div>
+
+          <!-- Core Backend & AI -->
+          <div class="lg:col-span-1 space-y-4">
+            <div
+              class="text-center font-bold text-slate-500 uppercase tracking-wider text-xs mb-2"
+            >
+              Intelligence & Logic
+            </div>
+            <div
+              onclick="showTechDetail('ai-engine')"
+              class="arch-block p-4 bg-purple-50 border-2 border-purple-200 rounded-lg shadow-sm text-center"
+            >
+              <div class="font-bold text-purple-900">AI Data Engine</div>
+              <div class="text-xs text-purple-700 mt-1">
+                Normalization & Forecasting
+              </div>
+              <div class="text-xs text-purple-600 mt-2 font-mono">
+                Python / LangChain
+              </div>
+            </div>
+            <div
+              onclick="showTechDetail('core-commerce')"
+              class="arch-block p-4 bg-blue-50 border-2 border-blue-200 rounded-lg shadow-sm text-center"
+            >
+              <div class="font-bold text-blue-900">Core Commerce</div>
+              <div class="text-xs text-blue-700 mt-1">
+                Orders, Inventory, Users
+              </div>
+              <div class="text-xs text-blue-600 mt-2 font-mono">
+                Node.js / Medusa
+              </div>
+            </div>
+          </div>
+
+          <!-- Data Persistence -->
+          <div class="lg:col-span-1 flex flex-col justify-center space-y-4">
+            <div
+              class="text-center font-bold text-slate-500 uppercase tracking-wider text-xs mb-2"
+            >
+              Data Layer
+            </div>
+            <div
+              onclick="showTechDetail('database')"
+              class="arch-block p-4 bg-slate-800 border-2 border-slate-600 rounded-lg shadow-sm text-center text-white h-full flex flex-col justify-center"
+            >
+              <div class="font-bold text-slate-100">Primary DB</div>
+              <div class="text-xs text-slate-400 mt-1">Relational Data</div>
+              <div class="text-xs text-slate-400 mt-2 font-mono">
+                PostgreSQL
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tech Details Display -->
+        <div
+          id="tech-detail-panel"
+          class="bg-slate-50 border border-slate-200 rounded-xl p-6 min-h-[150px]"
+        >
+          <div class="flex items-start">
+            <div class="text-4xl mr-4" id="tech-icon">👆</div>
+            <div>
+              <h3 class="text-lg font-bold text-slate-900" id="tech-title">
+                Explore the Stack
+              </h3>
+              <p class="text-slate-600 mt-2" id="tech-desc">
+                Click on any block in the architecture diagram above to see
+                detailed technology recommendations and implementation
+                strategies.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: AI Core Demo (SKU Normalization) -->
+    <section id="ai-core" class="py-16 bg-slate-900 text-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 class="text-3xl font-bold mb-4">
+              The AI Engine: SKU Normalization
+            </h2>
+            <p class="text-slate-300 mb-6">
+              One of the biggest challenges in F&B is messy data. Supplier A
+              sells "Tomatoes 5kg Box", Supplier B sells "Tomato Loose kg". The
+              AI Engine uses fuzzy matching and semantic understanding to map
+              these to a single Master SKU: "Fresh Tomato".
+            </p>
+            <ul class="space-y-3 text-slate-300 mb-8">
+              <li class="flex items-center">
+                <span class="w-2 h-2 bg-green-400 rounded-full mr-3"></span
+                >Ingests unstructured Order/Invoice Lists.
+              </li>
+              <li class="flex items-center">
+                <span class="w-2 h-2 bg-green-400 rounded-full mr-3"></span>Maps
+                Unit of Measure (UOM) automatically.
+              </li>
+              <li class="flex items-center">
+                <span class="w-2 h-2 bg-green-400 rounded-full mr-3"></span
+                >Enables true Price Comparison across suppliers.
+              </li>
+            </ul>
+            <button
+              onclick="runSimulation()"
+              class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-bold shadow-lg shadow-blue-500/30 transition"
+            >
+              Run Normalization Demo
+            </button>
+          </div>
+
+          <!-- Simulation Interface -->
+          <div
+            class="bg-slate-800 rounded-xl border border-slate-700 p-6 shadow-2xl"
+          >
+            <div
+              class="flex justify-between items-center mb-4 border-b border-slate-700 pb-2"
+            >
+              <span class="text-xs font-mono text-slate-400"
+                >AI_AGENT_V1.0 // LOGS</span
+              >
+              <span
+                class="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"
+              ></span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-4">
+              <div>
+                <div class="text-xs text-slate-400 mb-1">
+                  Raw Supplier Input
+                </div>
+                <div
+                  id="sim-input"
+                  class="bg-slate-900 p-3 rounded text-sm text-red-300 font-mono h-32 overflow-y-auto"
+                >
+                  Waiting for input...
+                </div>
+              </div>
+              <div>
+                <div class="text-xs text-slate-400 mb-1">
+                  Normalized AI Output
+                </div>
+                <div
+                  id="sim-output"
+                  class="bg-slate-900 p-3 rounded text-sm text-green-300 font-mono h-32 overflow-y-auto"
+                >
+                  System Ready.
+                </div>
+              </div>
+            </div>
+            <div
+              id="sim-status"
+              class="text-xs text-center text-slate-500 italic"
+            >
+              Click 'Run Normalization Demo' to start
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Roadmap & Phases -->
+    <section id="roadmap" class="py-16 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold text-slate-900 mb-10 text-center">
+          Execution Roadmap (Sprints)
+        </h2>
+
+        <div class="relative">
+          <!-- Vertical Line -->
+          <div
+            class="hidden md:block absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-slate-200"
+          ></div>
+
+          <div class="space-y-12">
+            <!-- Phase 1 -->
+            <div
+              class="relative flex flex-col md:flex-row items-center md:justify-between"
+            >
+              <div
+                class="md:w-5/12 p-6 bg-white border border-slate-200 rounded-xl shadow-sm text-right"
+              >
+                <h3 class="text-xl font-bold text-blue-900">
+                  Phase 1: MVP Core
+                </h3>
+                <div class="text-sm font-bold text-blue-500 mb-2">
+                  Sprint 1-4
+                </div>
+                <p class="text-slate-600 text-sm">
+                  Setup Web App, Admin Panel, and Basic Ordering.
+                  <br /><strong>Goal:</strong> Send a clean PO from App to
+                  Supplier Email/WhatsApp.
+                </p>
+              </div>
+              <div
+                class="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 bg-blue-500 rounded-full border-4 border-white flex items-center justify-center text-white text-xs font-bold"
+              >
+                1
+              </div>
+              <div class="md:w-5/12"></div>
+            </div>
+
+            <!-- Phase 2 -->
+            <div
+              class="relative flex flex-col md:flex-row items-center md:justify-between"
+            >
+              <div class="md:w-5/12"></div>
+              <div
+                class="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 bg-indigo-500 rounded-full border-4 border-white flex items-center justify-center text-white text-xs font-bold"
+              >
+                2
+              </div>
+              <div
+                class="md:w-5/12 p-6 bg-white border border-slate-200 rounded-xl shadow-sm"
+              >
+                <h3 class="text-xl font-bold text-indigo-900">
+                  Phase 2: Inventory & GRN
+                </h3>
+                <div class="text-sm font-bold text-indigo-500 mb-2">
+                  Sprint 5-8
+                </div>
+                <p class="text-slate-600 text-sm">
+                  "GRN is Truth". Receiving module, 3-way matching logic, and
+                  Inventory stock-taking features.
+                </p>
+              </div>
+            </div>
+
+            <!-- Phase 3 -->
+            <div
+              class="relative flex flex-col md:flex-row items-center md:justify-between"
+            >
+              <div
+                class="md:w-5/12 p-6 bg-white border border-slate-200 rounded-xl shadow-sm text-right"
+              >
+                <h3 class="text-xl font-bold text-purple-900">
+                  Phase 3: AI Intelligence
+                </h3>
+                <div class="text-sm font-bold text-purple-500 mb-2">
+                  Sprint 9-11
+                </div>
+                <p class="text-slate-600 text-sm">
+                  Variance detection (Waste Intelligence), Recommended Actions,
+                  and Advanced SKU Normalization.
+                </p>
+              </div>
+              <div
+                class="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 bg-purple-500 rounded-full border-4 border-white flex items-center justify-center text-white text-xs font-bold"
+              >
+                3
+              </div>
+              <div class="md:w-5/12"></div>
+            </div>
+
+            <!-- Phase 4 -->
+            <div
+              class="relative flex flex-col md:flex-row items-center md:justify-between"
+            >
+              <div class="md:w-5/12"></div>
+              <div
+                class="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 bg-slate-900 rounded-full border-4 border-white flex items-center justify-center text-white text-xs font-bold"
+              >
+                4
+              </div>
+              <div
+                class="md:w-5/12 p-6 bg-white border border-slate-200 rounded-xl shadow-sm"
+              >
+                <h3 class="text-xl font-bold text-slate-900">
+                  Phase 4: Finance & Scale
+                </h3>
+                <div class="text-sm font-bold text-slate-500 mb-2">
+                  Sprint 12+
+                </div>
+                <p class="text-slate-600 text-sm">
+                  Payment Flows, Partner Credit, Cross-border onboarding, and
+                  deep POS integrations.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+      <div class="max-w-7xl mx-auto px-4 text-center">
+        <p class="mb-4">
+          Project X Blueprint • Generated for Product & Engineering Teams
+        </p>
+        <p class="text-xs text-slate-600">
+          Based on "AI Purchase Manager Business Plan + Product Scope"
+        </p>
+      </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+      // --- Navigation Scroll Logic ---
+      function scrollToSection(id) {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+
+      // --- Transformation Toggle Logic (Supply Chain) ---
+      const supplyChainData = {
+        current: {
+          title: "Chaos: The Manual Way",
+          steps: [
+            {
+              icon: "👨‍🍳",
+              title: "Chef Checks Stock",
+              desc: "Manually writes on whiteboard/paper.",
+            },
+            {
+              icon: "📱",
+              title: "Manager Orders",
+              desc: "Sends 10 WhatsApp msgs to different suppliers.",
+            },
+            {
+              icon: "❓",
+              title: "Supplier Confirms?",
+              desc: "Maybe. Or misses item. No price check.",
+            },
+            {
+              icon: "🚚",
+              title: "Delivery",
+              desc: "Driver drops boxes. Invoice is paper.",
+            },
+            {
+              icon: "📉",
+              title: "Accounting Nightmare",
+              desc: "Data entry into Excel. Prices vary. 5% margin lost.",
+            },
+          ],
+          color: "bg-red-50 border-red-200",
+        },
+        future: {
+          title: "Control: The AI Agent Way",
+          steps: [
+            {
+              icon: "📊",
+              title: "Auto-Demand",
+              desc: "POS data + Menu predicts needs. Drafts PO.",
+            },
+            {
+              icon: "🤖",
+              title: "Agent Negotiates",
+              desc: "Splits order to best priced suppliers automatically.",
+            },
+            {
+              icon: "✅",
+              title: "Digital PO",
+              desc: "Supplier gets standardized link/email. Confirms Qty.",
+            },
+            {
+              icon: "📱",
+              title: "Digital GRN",
+              desc: "Chef scans QR on arrival. Adjusts wgt. 'Source of Truth'.",
+            },
+            {
+              icon: "💰",
+              title: "Auto-Reconcile",
+              desc: "System matches PO=GRN=Invoice. Auto-audit.",
+            },
+          ],
+          color: "bg-green-50 border-green-200",
+        },
+      };
+
+      function toggleSupplyChain(mode) {
+        const container = document.getElementById("supply-chain-content");
+        const data = supplyChainData[mode];
+        const btnCurrent = document.getElementById("btn-current");
+        const btnFuture = document.getElementById("btn-future");
+
+        // Button Styles
+        if (mode === "current") {
+          btnCurrent.className =
+            "px-6 py-2 rounded-md font-medium text-sm transition-all bg-white text-blue-600 shadow-sm";
+          btnFuture.className =
+            "px-6 py-2 rounded-md font-medium text-sm text-slate-500 hover:text-slate-700 transition-all";
+        } else {
+          btnFuture.className =
+            "px-6 py-2 rounded-md font-medium text-sm transition-all bg-white text-green-600 shadow-sm";
+          btnCurrent.className =
+            "px-6 py-2 rounded-md font-medium text-sm text-slate-500 hover:text-slate-700 transition-all";
+        }
+
+        // Render Steps
+        let html = `
+                <h3 class="text-xl font-bold mb-6 text-center text-slate-800">${data.title}</h3>
+                <div class="flex flex-col md:flex-row justify-between items-start space-y-4 md:space-y-0 md:space-x-4 relative">
+                    <!-- Connector Line (Desktop) -->
+                    <div class="hidden md:block absolute top-8 left-0 w-full h-1 bg-slate-200 -z-0"></div>
+            `;
+
+        data.steps.forEach((step, index) => {
+          html += `
+                    <div class="flex-1 z-10 w-full md:w-auto">
+                        <div class="flex flex-col items-center text-center p-4 rounded-xl ${data.color} border h-full bg-white bg-opacity-90">
+                            <div class="text-4xl mb-3">${step.icon}</div>
+                            <h4 class="font-bold text-slate-800 text-sm mb-1">${step.title}</h4>
+                            <p class="text-xs text-slate-500">${step.desc}</p>
+                        </div>
+                    </div>
+                `;
+        });
+
+        html += `</div>`;
+        container.innerHTML = html;
+      }
+
+      // Initialize Supply Chain
+      toggleSupplyChain("future");
+
+      // --- User Journey Logic ---
+      const journeySteps = [
+        {
+          title: "Demand & Order Generation",
+          role: "Role: Head Chef / Store Manager",
+          content:
+            "The process starts with identifying what's needed. Instead of walking the fridge with a clipboard, the system suggests orders.",
+          features: [
+            "POS Integration (Sales Data)",
+            "Menu Recipe Cards",
+            "Par Levels Logic",
+          ],
+          tech: "AI forecasting model (Prophet/ARIMA) analyzes sales trends to predict ingredient usage.",
+        },
+        {
+          title: "Supplier Selection & PO Splitting",
+          role: "Role: AI Agent (Procurement)",
+          content:
+            "The Agent takes the master shopping list (e.g., 50 items) and checks connected suppliers. It splits the list to ensure the best price and availability.",
+          features: [
+            "Price Comparison Matrix",
+            "Supplier Availability Check",
+            "LPO Generation",
+          ],
+          tech: "Greedy algorithm for optimization. Communication via Email/WhatsApp API.",
+        },
+        {
+          title: "Fulfillment & GRN (Goods Received Note)",
+          role: "Role: Receiver / Chef",
+          content:
+            "Delivery arrives. The Chef opens the app. The digital LPO is there. They check items. If 5kg tomatoes ordered but 4kg received, they edit the Qty. This creates the GRN.",
+          features: [
+            "Mobile App Input",
+            "Variance Flagging",
+            "Digital Signature",
+          ],
+          tech: "Real-time DB update. 'GRN is Truth' logic locks the payable amount.",
+        },
+        {
+          title: "Payment & Reconciliation",
+          role: "Role: Accountant / System",
+          content:
+            "The system matches the Supplier Invoice against the GRN (not the PO). If they match within tolerance, it approves payment.",
+          features: [
+            "3-Way Matching",
+            "Integration with Xero/Quickbooks",
+            "Credit Period Mgmt",
+          ],
+          tech: "Automated workflow rules. Alerts for discrepancies > 5%.",
+        },
+      ];
+
+      function setJourneyStep(index) {
+        // Update Buttons
+        for (let i = 0; i < 4; i++) {
+          const btn = document.getElementById(`step-btn-${i}`);
+          const circle = btn.querySelector("div:first-child");
+          if (i === index) {
+            btn.className =
+              "w-full text-left p-4 rounded-lg bg-blue-600 text-white shadow-lg transition-all flex items-center transform scale-105";
+            circle.className =
+              "w-8 h-8 rounded-full bg-white/20 flex items-center justify-center mr-3 font-bold";
+          } else {
+            btn.className =
+              "w-full text-left p-4 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 transition-all flex items-center";
+            circle.className =
+              "w-8 h-8 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center mr-3 font-bold";
+          }
+        }
+
+        // Update Content
+        const step = journeySteps[index];
+        const container = document.getElementById("journey-detail");
+        container.innerHTML = `
+                <div class="h-full flex flex-col justify-between animate-fade-in">
+                    <div>
+                        <div class="inline-block px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-bold mb-4 uppercase tracking-wide">${step.role}</div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-4">${step.title}</h3>
+                        <p class="text-lg text-slate-600 mb-6 leading-relaxed">${step.content}</p>
+                        
+                        <div class="bg-slate-50 rounded-lg p-5 border border-slate-200 mb-6">
+                            <h4 class="font-bold text-slate-800 mb-3 text-sm">Key Modules Active:</h4>
+                            <div class="flex flex-wrap gap-2">
+                                ${step.features.map((f) => `<span class="px-3 py-1 bg-white border border-slate-300 rounded text-sm text-slate-600">${f}</span>`).join("")}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border-t border-slate-100 pt-4 mt-auto">
+                        <div class="flex items-start">
+                            <span class="text-xl mr-2">⚙️</span>
+                            <div>
+                                <span class="font-bold text-slate-800 text-sm">Under the Hood:</span>
+                                <p class="text-sm text-slate-500 mt-1">${step.tech}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+      }
+
+      // Initialize Journey
+      setJourneyStep(0);
+
+      // --- Tech Detail Logic ---
+      const techDetails = {
+        "restaurant-app": {
+          title: "Restaurant App (Frontend)",
+          desc: "<strong>Recommended: Next.js + Tailwind CSS.</strong><br>Must be a PWA (Progressive Web App) so chefs can use it on mobile in kitchens with poor signal. Offline-first architecture (using IndexedDB) is critical for GRN creation in basements.",
+        },
+        "supplier-portal": {
+          title: "Supplier Portal",
+          desc: "<strong>Recommended: React Admin or Refine.dev.</strong><br>A simple dashboard for suppliers to receive orders, confirm availability, and upload invoices. Suppliers often have low-tech adoption, so this UI must be dead simple.",
+        },
+        "admin-panel": {
+          title: "Super Admin Panel",
+          desc: "<strong>Recommended: Retool or Custom React.</strong><br>For internal ops to onboard restaurants, manage master SKU lists, and monitor platform health.",
+        },
+        "api-gateway": {
+          title: "API Gateway",
+          desc: "<strong>Recommended: Kong or AWS API Gateway.</strong><br>Handles routing between the apps and the backend services. Crucial for security and rate limiting.",
+        },
+        "ai-engine": {
+          title: "AI Data Engine (The 'Brain')",
+          desc: "<strong>Recommended: Python (FastAPI) + LangChain + Vector DB (Pinecone).</strong><br>This service runs independently. It ingests messy strings ('Tom 5kg') and vectorizes them to find the closest match in the Master SKU database using semantic search.",
+        },
+        "core-commerce": {
+          title: "Core Commerce (The 'Body')",
+          desc: "<strong>Recommended: Node.js (NestJS) or Medusa.js (Headless).</strong><br>Medusa is great for basic order/product structures. However, for 'Procurement' specific logic (Standing Orders, Par Levels, Supplier Credit Limits), you will likely need to build custom modules extending the core.",
+        },
+        database: {
+          title: "Primary Database",
+          desc: "<strong>Recommended: PostgreSQL.</strong><br>Relational data is non-negotiable here. We need ACID compliance for financial transactions (Orders, Invoices, Payments). JSONB columns can store flexible supplier metadata.",
+        },
+      };
+
+      function showTechDetail(key) {
+        const data = techDetails[key];
+        document.getElementById("tech-title").innerHTML = data.title;
+        document.getElementById("tech-desc").innerHTML = data.desc;
+
+        // Highlight logic
+        document
+          .querySelectorAll(".arch-block")
+          .forEach((el) => el.classList.remove("active"));
+        // In a real app we'd map this back to the element, simple styling for now is handled by hover
+      }
+
+      // --- AI Simulation Logic ---
+      function runSimulation() {
+        const inputs = [
+          "Processing: Supplier A - 'Tomatoes Box 5kg'...",
+          "Processing: Supplier B - 'Fresh Tomato Local'...",
+          "Processing: Supplier C - 'Tomato Red (Imp) 1kg'...",
+          "Analyzing semantic similarity...",
+          "Detected Category: Vegetables / Solanaceous",
+          "Identifying Unit of Measure (UOM)...",
+        ];
+
+        const outputs = [
+          "Mapped -> SKU_102 (Tomato, Fresh)",
+          "Mapped -> SKU_102 (Tomato, Fresh)",
+          "Mapped -> SKU_102 (Tomato, Fresh)",
+          "Confidence Score: 98.2%",
+          "Normalization Complete.",
+          "Price Variance: Supplier A ($1.2/kg) vs Supplier C ($1.5/kg)",
+        ];
+
+        const inBox = document.getElementById("sim-input");
+        const outBox = document.getElementById("sim-output");
+        const status = document.getElementById("sim-status");
+
+        inBox.innerHTML = "";
+        outBox.innerHTML = "";
+        status.innerText = "Running AI Models...";
+
+        let i = 0;
+        const interval = setInterval(() => {
+          if (i < inputs.length) {
+            inBox.innerHTML += `<div>> ${inputs[i]}</div>`;
+            inBox.scrollTop = inBox.scrollHeight;
+
+            setTimeout(() => {
+              outBox.innerHTML += `<div>> ${outputs[i]}</div>`;
+              outBox.scrollTop = outBox.scrollHeight;
+            }, 300); // slight delay for "processing" feel
+
+            i++;
+          } else {
+            clearInterval(interval);
+            status.innerText = "Simulation Complete. Data Standardized.";
+          }
+        }, 800);
+      }
+    </script>
+  </body>
+</html>

@@ -3,11 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Project X | The Agentic AI Procurement SaaS</title>
+    <title>ProcureIQ | Agentic AI Procurement Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <style>
@@ -20,6 +20,14 @@
         position: relative;
         width: 100%;
         height: 280px;
+        padding: 20px;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.9) 0%,
+          rgba(248, 250, 252, 0.9) 100%
+        );
+        border-radius: 20px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
       }
       .nav-link {
         position: relative;
@@ -39,28 +47,77 @@
         width: 100%;
       }
       .glass-card {
-        background: rgba(255, 255, 255, 0.8);
-        backdrop-filter: blur(12px);
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
         border: 1px solid rgba(226, 232, 240, 0.8);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
       }
       .hero-gradient {
-        background: radial-gradient(circle at top right, #1e3a8a, #0f172a);
+        background: linear-gradient(
+          135deg,
+          #0f172a 0%,
+          #1e3a8a 50%,
+          #3b82f6 100%
+        );
+        position: relative;
+        overflow: hidden;
+      }
+      .hero-gradient::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+          circle,
+          rgba(59, 130, 246, 0.3) 0%,
+          transparent 70%
+        );
+        animation: pulse 8s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 0.5;
+        }
+        50% {
+          transform: scale(1.2);
+          opacity: 0.8;
+        }
       }
       input[type="range"] {
         accent-color: #3b82f6;
       }
-      .step-active {
+      .arch-block {
+        cursor: pointer;
+        transition: all 0.2s;
+        border: 2px solid #e2e8f0;
+      }
+      .arch-block:hover {
         border-color: #3b82f6;
         background-color: #eff6ff;
+        transform: translateY(-2px);
       }
-      .arch-node:hover {
-        transform: scale(1.02);
-        border-color: #3b82f6;
+      .arch-block.active {
+        border-color: #2563eb;
+        background-color: #dbeafe;
+      }
+      .sprint-card {
+        transition: all 0.3s ease;
+        border: 1px solid #e2e8f0;
+        cursor: pointer;
+      }
+      .sprint-card.active {
+        border-color: #2563eb;
+        background-color: #eff6ff;
+        box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.1);
       }
       @keyframes fadeIn {
         from {
           opacity: 0;
-          transform: translateY(10px);
+          transform: translateY(20px);
         }
         to {
           opacity: 1;
@@ -68,57 +125,111 @@
         }
       }
       .animate-fade {
-        animation: fadeIn 0.5s ease-out forwards;
+        animation: fadeIn 0.8s ease-out forwards;
+      }
+      @keyframes float {
+        0%, 100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+      .animate-float {
+        animation: float 6s ease-in-out infinite;
+      }
+      @keyframes slideInLeft {
+        from {
+          opacity: 0;
+          transform: translateX(-50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+      .animate-slide-left {
+        animation: slideInLeft 0.8s ease-out forwards;
+      }
+      .interactive-card {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .interactive-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow:
+          0 20px 40px -10px rgba(59, 130, 246, 0.3),
+          0 0 0 1px rgba(59, 130, 246, 0.1);
+      }
+      .stat-card {
+        background: linear-gradient(
+          135deg,
+          rgba(59, 130, 246, 0.1) 0%,
+          rgba(147, 51, 234, 0.1) 100%
+        );
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        transition: all 0.3s ease;
+      }
+      .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 15px 30px -5px rgba(59, 130, 246, 0.2);
+        border-color: rgba(59, 130, 246, 0.4);
       }
     </style>
-    <!-- Chosen Palette: Modern Enterprise (Slate, Royal Blue, Emerald, and Arctic White) -->
-    <!-- Application Structure Plan:
-         1. Dual-Track Navigation: Switch between "Product Blueprint" (The Tech) and "Value Dashboard" (The Business).
-         2. Hero: Highlighting the SaaS multi-tenant capability for UAE F&B.
-         3. Value Pillars: Interactive modules on Waste, Cost, Insights, and Speed.
-         4. Agentic Workflow: Step-by-step journey of the AI Procurement Manager.
-         5. Technical Architecture: Interactive stack explanation (Medusa, Python, etc.).
-         6. ROI Simulator: Multi-restaurant savings calculator.
-    -->
-    <!-- Visualization & Content Choices:
-         - Chart.js for all ROI and Waste visualizations.
-         - CSS Flex/Grid for the Architecture diagram (No SVG).
-         - Interactive JS state management for switching between "Value" and "Blueprint" modes.
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
   </head>
   <body class="text-slate-800">
     <!-- Sticky Navigation -->
     <nav
-      class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200"
+      class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm"
     >
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-18 items-center py-4">
-          <div class="flex items-center space-x-2">
+          <div class="flex items-center space-x-3">
             <div
-              class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold"
+              class="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center text-white font-bold shadow-md"
             >
-              X
+              P
             </div>
-            <span class="text-xl font-bold tracking-tight text-slate-900"
-              >Project X
-              <span class="text-blue-600 font-medium text-sm"
-                >SaaS AI</span
-              ></span
-            >
+            <div>
+              <div class="text-xl font-bold tracking-tight text-slate-900">ProcureIQ</div>
+              <div class="text-[10px] font-semibold text-blue-600 uppercase tracking-widest">Intelligent Procurement AI</div>
+            </div>
           </div>
           <div class="hidden md:flex space-x-8 items-center">
             <button
-              onclick="showView('value')"
+              onclick="scrollToId('vision')"
               class="nav-link text-sm font-semibold text-slate-600 hover:text-blue-600"
             >
-              Value Proposition
+              Vision
             </button>
             <button
-              onclick="showView('blueprint')"
+              onclick="scrollToId('transformation')"
               class="nav-link text-sm font-semibold text-slate-600 hover:text-blue-600"
             >
-              Technical Blueprint
+              Transformation
+            </button>
+            <button
+              onclick="scrollToId('journey')"
+              class="nav-link text-sm font-semibold text-slate-600 hover:text-blue-600"
+            >
+              Journey
+            </button>
+            <button
+              onclick="scrollToId('architecture')"
+              class="nav-link text-sm font-semibold text-slate-600 hover:text-blue-600"
+            >
+              Architecture
+            </button>
+            <button
+              onclick="scrollToId('ai-demo')"
+              class="nav-link text-sm font-semibold text-slate-600 hover:text-blue-600"
+            >
+              AI Engine
+            </button>
+            <button
+              onclick="scrollToId('roadmap')"
+              class="nav-link text-sm font-semibold text-slate-600 hover:text-blue-600"
+            >
+              Roadmap
             </button>
             <button
               onclick="scrollToId('roi')"
@@ -132,83 +243,840 @@
     </nav>
 
     <!-- Hero Section -->
-    <header class="hero-gradient text-white py-20 px-4">
-      <div class="max-w-7xl mx-auto text-center">
-        <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
-          Agentic Procurement for the <br /><span class="text-blue-400"
-            >Next Generation of F&B</span
-          >
-        </h1>
-        <p class="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto mb-10">
-          A multi-tenant SaaS platform that turns every restaurant's procurement
-          office into an AI-powered profit center. Automate SKU mapping,
-          benchmark UAE suppliers, and eliminate waste.
-        </p>
-        <div class="flex flex-col sm:flex-row justify-center gap-4">
-          <div
-            class="flex items-center space-x-2 bg-white/10 px-4 py-2 rounded-lg border border-white/20"
-          >
-            <span class="text-green-400">●</span>
-            <span class="text-sm font-medium">Multi-tenant Infrastructure</span>
+    <header id="vision" class="hero-gradient text-white py-24 px-4 overflow-hidden">
+      <div class="max-w-7xl mx-auto relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+          <!-- Left Content -->
+          <div class="lg:col-span-7 animate-fade">
+            <div class="mb-8">
+              <span
+                class="inline-flex items-center gap-2 py-2.5 px-5 rounded-full bg-gradient-to-r from-blue-500/30 to-purple-500/30 text-blue-100 text-xs font-bold uppercase tracking-widest border border-blue-400/40 backdrop-blur-md shadow-lg"
+              >
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M13 7H7v6h6V7z"/>
+                  <path fill-rule="evenodd" d="M7 2a1 1 0 012 0v1h2V2a1 1 0 112 0v1h2a2 2 0 012 2v2h1a1 1 0 110 2h-1v2h1a1 1 0 110 2h-1v2a2 2 0 01-2 2h-2v1a1 1 0 11-2 0v-1H9v1a1 1 0 11-2 0v-1H5a2 2 0 01-2-2v-2H2a1 1 0 110-2h1V9H2a1 1 0 010-2h1V5a2 2 0 012-2h2V2zM5 5h10v10H5V5z" clip-rule="evenodd"/>
+                </svg>
+                Intelligent Procurement AI
+              </span>
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-black mb-8 leading-[0.95] tracking-tight">
+              Smart Procurement.
+              <br />
+              <span class="bg-gradient-to-r from-cyan-300 via-blue-400 to-purple-400 bg-clip-text text-transparent">
+                Smarter Margins.
+              </span>
+            </h1>
+            
+            <p class="text-xl md:text-2xl text-slate-200 mb-10 leading-relaxed max-w-2xl font-light">
+              Transform your F&B procurement with AI that <strong class="text-white font-semibold">learns</strong>, 
+              <strong class="text-white font-semibold">predicts</strong>, and 
+              <strong class="text-white font-semibold">optimizes</strong> every order—automatically.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 mb-12">
+              <button
+                onclick="scrollToId('roi')"
+                class="group relative px-8 py-4 bg-white text-slate-900 rounded-2xl font-bold text-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 overflow-hidden"
+              >
+                <span class="relative z-10 flex items-center justify-center gap-2">
+                  Calculate Your Savings
+                  <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                  </svg>
+                </span>
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-400 opacity-0 group-hover:opacity-10 transition-opacity"></div>
+              </button>
+              <button
+                onclick="scrollToId('ai-demo')"
+                class="px-8 py-4 bg-white/10 text-white rounded-2xl font-semibold text-lg hover:bg-white/20 transition-all duration-300 backdrop-blur-sm border border-white/20 flex items-center justify-center gap-2"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                  <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                </svg>
+                See AI in Action
+              </button>
+            </div>
+
+            <!-- Key Metrics -->
+            <div class="grid grid-cols-3 gap-4">
+              <div class="text-center p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all">
+                <div class="text-3xl md:text-4xl font-black bg-gradient-to-br from-blue-300 to-cyan-400 bg-clip-text text-transparent mb-1">
+                  12-18%
+                </div>
+                <div class="text-[10px] md:text-xs text-slate-300 font-medium uppercase tracking-wider">
+                  Cost Savings
+                </div>
+              </div>
+              <div class="text-center p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all">
+                <div class="text-3xl md:text-4xl font-black bg-gradient-to-br from-emerald-300 to-green-400 bg-clip-text text-transparent mb-1">
+                  100%
+                </div>
+                <div class="text-[10px] md:text-xs text-slate-300 font-medium uppercase tracking-wider">
+                  Transparency
+                </div>
+              </div>
+              <div class="text-center p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all">
+                <div class="text-3xl md:text-4xl font-black bg-gradient-to-br from-purple-300 to-pink-400 bg-clip-text text-transparent mb-1">
+                  24/7
+                </div>
+                <div class="text-[10px] md:text-xs text-slate-300 font-medium uppercase tracking-wider">
+                  Automation
+                </div>
+              </div>
+            </div>
           </div>
-          <div
-            class="flex items-center space-x-2 bg-white/10 px-4 py-2 rounded-lg border border-white/20"
-          >
-            <span class="text-blue-400">●</span>
-            <span class="text-sm font-medium">Agentic AI Workflows</span>
+
+          <!-- Right Visual -->
+          <div class="lg:col-span-5">
+            <div class="relative">
+              <!-- Floating Card 1 - Main Dashboard -->
+              <div class="relative bg-white rounded-3xl shadow-2xl p-8 animate-fade">
+                <div class="flex items-center justify-between mb-6">
+                  <div>
+                    <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-1">Live Dashboard</div>
+                    <div class="text-slate-900 text-2xl font-bold">AED 847,392</div>
+                  </div>
+                  <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white text-2xl shadow-lg">
+                    📊
+                  </div>
+                </div>
+                
+                <!-- Mini Chart -->
+                <div class="h-32 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl mb-4 flex items-end justify-around p-4 gap-2">
+                  <div class="w-full bg-blue-400 rounded-t-lg opacity-60" style="height: 40%"></div>
+                  <div class="w-full bg-blue-500 rounded-t-lg opacity-80" style="height: 65%"></div>
+                  <div class="w-full bg-blue-600 rounded-t-lg" style="height: 85%"></div>
+                  <div class="w-full bg-cyan-500 rounded-t-lg" style="height: 95%"></div>
+                  <div class="w-full bg-cyan-600 rounded-t-lg" style="height: 75%"></div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-2 gap-3">
+                  <div class="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-xl p-3">
+                    <div class="text-emerald-600 text-xs font-semibold mb-1">Savings</div>
+                    <div class="text-emerald-900 text-xl font-bold">+AED 94k</div>
+                  </div>
+                  <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-3">
+                    <div class="text-purple-600 text-xs font-semibold mb-1">Orders</div>
+                    <div class="text-purple-900 text-xl font-bold">1,247</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Floating Badge 1 -->
+              <div class="absolute -top-6 -right-6 bg-gradient-to-br from-emerald-500 to-emerald-600 text-white px-6 py-3 rounded-2xl shadow-2xl animate-pulse">
+                <div class="text-xs font-semibold uppercase tracking-wider mb-1">AI Active</div>
+                <div class="text-2xl font-black">✓</div>
+              </div>
+
+              <!-- Floating Badge 2 -->
+              <div class="absolute -bottom-4 -left-4 bg-white rounded-2xl shadow-xl p-4 border border-slate-100">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">
+                    🤖
+                  </div>
+                  <div>
+                    <div class="text-slate-900 font-bold text-sm">Auto-ordering</div>
+                    <div class="text-slate-500 text-xs">Processing 24 SKUs</div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div
-            class="flex items-center space-x-2 bg-white/10 px-4 py-2 rounded-lg border border-white/20"
-          >
-            <span class="text-purple-400">●</span>
-            <span class="text-sm font-medium">Real-time UAE Benchmarking</span>
+        </div>
+
+        <!-- Bottom Feature Pills -->
+        <div class="mt-20 flex flex-wrap justify-center gap-4 max-w-4xl mx-auto">
+          <div class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-sm font-medium">
+            <span class="text-green-400 text-lg">✓</span>
+            Multi-tenant Infrastructure
+          </div>
+          <div class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-sm font-medium">
+            <span class="text-blue-400 text-lg">✓</span>
+            Agentic AI Workflows
+          </div>
+          <div class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-sm font-medium">
+            <span class="text-purple-400 text-lg">✓</span>
+            UAE Supplier Benchmarking
+          </div>
+          <div class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-sm font-medium">
+            <span class="text-cyan-400 text-lg">✓</span>
+            Real-time Analytics
           </div>
         </div>
       </div>
     </header>
 
-    <!-- Main View Switcher Section -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 relative z-10">
-      <!-- View Toggle -->
-      <div class="flex justify-center mb-10">
-        <div class="bg-slate-200 p-1 rounded-2xl inline-flex shadow-xl">
-          <button
-            id="tab-value"
-            onclick="showView('value')"
-            class="px-8 py-3 rounded-xl font-bold text-sm transition-all bg-white text-blue-600 shadow-sm"
-          >
-            Restaurant Value Dashboard
-          </button>
-          <button
-            id="tab-blueprint"
-            onclick="showView('blueprint')"
-            class="px-8 py-3 rounded-xl font-bold text-sm text-slate-600 hover:text-slate-900 transition-all"
-          >
-            Product & Tech Blueprint
-          </button>
+    <!-- Transformation Section (Old vs New) -->
+    <section id="transformation" class="py-24 bg-gradient-to-b from-slate-50 to-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <span class="inline-block px-4 py-1.5 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold uppercase tracking-wider mb-4">Transformation</span>
+          <h2 class="text-5xl md:text-6xl font-black text-slate-900 mb-4">From Chaos to <span class="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">Control</span></h2>
+          <p class="text-slate-600 text-lg mt-4 max-w-2xl mx-auto">
+            See how ProcureIQ transforms broken supply chains into intelligent, automated systems.
+          </p>
+        </div>
+
+        <div class="flex justify-center mb-12">
+          <div class="bg-white p-1.5 rounded-2xl inline-flex shadow-lg border border-slate-200">
+            <button
+              id="tab-current"
+              onclick="toggleFlow('current')"
+              class="px-8 py-3.5 rounded-xl font-bold text-sm transition-all bg-gradient-to-r from-red-500 to-red-600 text-white shadow-md"
+            >
+              <span class="flex items-center gap-2">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                </svg>
+                Current Chaos
+              </span>
+            </button>
+            <button
+              id="tab-future"
+              onclick="toggleFlow('future')"
+              class="px-8 py-3.5 rounded-xl font-bold text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-all"
+            >
+              <span class="flex items-center gap-2">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                  <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                AI-Powered Future
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <div
+          id="flow-container"
+          class="bg-slate-50 rounded-[3rem] p-10 border border-slate-200 shadow-inner"
+        >
+          <!-- Content will be injected here -->
         </div>
       </div>
+    </section>
 
-      <!-- Dynamic Container -->
-      <div id="view-container">
-        <!-- Content will be injected here -->
+    <!-- Value Pillars Section -->
+    <section class="py-20 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl md:text-5xl font-black text-slate-900 mb-4">Why ProcureIQ Wins</h2>
+          <p class="text-slate-600 text-lg max-w-2xl mx-auto">Four pillars of procurement intelligence working 24/7 for your business</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          <div
+            class="glass-card p-6 rounded-3xl shadow-sm border border-slate-200 interactive-card"
+          >
+            <div
+              class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center text-xl mb-4"
+            >
+              🗑️
+            </div>
+            <h3 class="font-bold text-slate-900">Waste Intelligence</h3>
+            <p class="text-xs text-slate-500 mt-2">
+              Flagging variance between POS sales and GRN intake.
+            </p>
+          </div>
+          <div
+            class="glass-card p-6 rounded-3xl shadow-sm border border-slate-200 interactive-card"
+          >
+            <div
+              class="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center text-xl mb-4"
+            >
+              💰
+            </div>
+            <h3 class="font-bold text-slate-900">Cost Reduction</h3>
+            <p class="text-xs text-slate-500 mt-2">
+              Automated benchmark across UAE supplier network.
+            </p>
+          </div>
+          <div
+            class="glass-card p-6 rounded-3xl shadow-sm border border-slate-200 interactive-card"
+          >
+            <div
+              class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-xl mb-4"
+            >
+              🔍
+            </div>
+            <h3 class="font-bold text-slate-900">Real-time Insights</h3>
+            <p class="text-xs text-slate-500 mt-2">
+              Item-level inflation tracking and menu engineering.
+            </p>
+          </div>
+          <div
+            class="glass-card p-6 rounded-3xl shadow-sm border border-slate-200 interactive-card"
+          >
+            <div
+              class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center text-xl mb-4"
+            >
+              ⚡
+            </div>
+            <h3 class="font-bold text-slate-900">Decision Speed</h3>
+            <p class="text-xs text-slate-500 mt-2">
+              PO approval workflows that take seconds, not hours.
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="bg-white rounded-[2.5rem] p-10 shadow-sm border border-slate-100"
+        >
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-7">
+              <h2 class="text-3xl font-bold text-slate-900 mb-6">
+                Unlocking Hidden Margins
+              </h2>
+              <p class="text-slate-600 mb-8 leading-relaxed">
+                ProcureIQ uses a "Theoretical vs Actual" (TvA) model. By
+                connecting your POS and your Procurement, the AI identifies
+                exactly where ingredients go missing—whether it's
+                over-portioning in the kitchen or shrinkage in the store room.
+              </p>
+              <div class="space-y-4">
+                <div
+                  class="flex items-center p-5 bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl border border-blue-200 hover:shadow-md transition-all"
+                >
+                  <span
+                    class="bg-gradient-to-br from-blue-600 to-blue-700 text-white w-8 h-8 rounded-xl flex items-center justify-center text-sm font-bold mr-4 shadow-md"
+                    >1</span
+                  >
+                  <span class="text-sm font-semibold text-slate-800"
+                    >Automatic Price Matching to UAE Market Averages</span
+                  >
+                </div>
+                <div
+                  class="flex items-center p-5 bg-gradient-to-r from-purple-50 to-purple-100 rounded-2xl border border-purple-200 hover:shadow-md transition-all"
+                >
+                  <span
+                    class="bg-gradient-to-br from-purple-600 to-purple-700 text-white w-8 h-8 rounded-xl flex items-center justify-center text-sm font-bold mr-4 shadow-md"
+                    >2</span
+                  >
+                  <span class="text-sm font-semibold text-slate-800"
+                    >Predictive Ordering based on historical traffic
+                    patterns</span
+                  >
+                </div>
+                <div
+                  class="flex items-center p-5 bg-gradient-to-r from-emerald-50 to-emerald-100 rounded-2xl border border-emerald-200 hover:shadow-md transition-all"
+                >
+                  <span
+                    class="bg-gradient-to-br from-emerald-600 to-emerald-700 text-white w-8 h-8 rounded-xl flex items-center justify-center text-sm font-bold mr-4 shadow-md"
+                    >3</span
+                  >
+                  <span class="text-sm font-semibold text-slate-800"
+                    >Digital GRN captures weight discrepancies on delivery</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div
+              class="lg:col-span-5 bg-slate-50 p-6 rounded-3xl border border-slate-100"
+            >
+              <div
+                class="text-center text-xs font-bold text-slate-400 uppercase tracking-widest mb-4"
+              >
+                Avg. Impact per Outlet
+              </div>
+              <div class="chart-container">
+                <canvas id="impactChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </main>
+    </section>
 
-    <!-- Global ROI Simulator (Available in both views) -->
+    <!-- User Journey Section (Digital Procurement Manager) -->
+    <section id="journey" class="py-24 bg-gradient-to-b from-white to-slate-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-16 text-center">
+          <span class="inline-block px-4 py-1.5 bg-purple-100 text-purple-700 rounded-full text-xs font-semibold uppercase tracking-wider mb-4">The Journey</span>
+          <h2 class="text-5xl md:text-6xl font-black text-slate-900 mb-6">
+            Meet Your <span class="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Intelligent Procurement AI</span>
+          </h2>
+          <p class="mt-4 text-slate-600 text-xl max-w-3xl mx-auto leading-relaxed">
+            Not just automation—<strong class="text-slate-900">intelligent orchestration</strong>. From demand forecasting to payment approval, every step optimized.
+          </p>
+        </div>
+
+        <div
+          class="bg-white rounded-[2.5rem] p-10 shadow-sm border border-slate-100"
+        >
+          <h3 class="text-2xl font-bold text-slate-900 mb-4 text-center">
+            The Agentic AI Workflow
+          </h3>
+          <p class="text-slate-500 text-center mb-12 max-w-2xl mx-auto">
+            How the "Digital Procurement Manager" handles the lifecycle from
+            request to payment.
+          </p>
+
+          <div
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 relative mb-12"
+          >
+            <!-- Step 1 -->
+            <div
+              class="p-6 rounded-3xl border-2 border-slate-100 hover:border-blue-500 transition cursor-pointer group"
+            >
+              <div
+                class="text-blue-600 font-black text-4xl mb-4 opacity-20 group-hover:opacity-100 transition"
+              >
+                01
+              </div>
+              <h4 class="font-bold text-slate-900">Demand Sync</h4>
+              <p class="text-xs text-slate-500 mt-2">
+                AI pulls POS/Inventory data to forecast needs.
+              </p>
+            </div>
+            <!-- Step 2 -->
+            <div
+              class="p-6 rounded-3xl border-2 border-slate-100 hover:border-blue-500 transition cursor-pointer group"
+            >
+              <div
+                class="text-blue-600 font-black text-4xl mb-4 opacity-20 group-hover:opacity-100 transition"
+              >
+                02
+              </div>
+              <h4 class="font-bold text-slate-900">Market Benchmarking</h4>
+              <p class="text-xs text-slate-500 mt-2">
+                Agent splits the PO between suppliers for best price.
+              </p>
+            </div>
+            <!-- Step 3 -->
+            <div
+              class="p-6 rounded-3xl border-2 border-slate-100 hover:border-blue-500 transition cursor-pointer group"
+            >
+              <div
+                class="text-blue-600 font-black text-4xl mb-4 opacity-20 group-hover:opacity-100 transition"
+              >
+                03
+              </div>
+              <h4 class="font-bold text-slate-900">Digital Receiving</h4>
+              <p class="text-xs text-slate-500 mt-2">
+                Mobile GRN checks weights/quality at the door.
+              </p>
+            </div>
+            <!-- Step 4 -->
+            <div
+              class="p-6 rounded-3xl border-2 border-slate-100 hover:border-blue-500 transition cursor-pointer group"
+            >
+              <div
+                class="text-blue-600 font-black text-4xl mb-4 opacity-20 group-hover:opacity-100 transition"
+              >
+                04
+              </div>
+              <h4 class="font-bold text-slate-900">3-Way Match</h4>
+              <p class="text-xs text-slate-500 mt-2">
+                PO = GRN = Invoice. Auto-approve for payment.
+              </p>
+            </div>
+          </div>
+
+          <!-- Detailed Journey Steps -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Left: Steps List -->
+            <div class="lg:col-span-4 space-y-4">
+              <button
+                onclick="setJourneyStep(0)"
+                id="step-btn-0"
+                class="w-full text-left p-4 rounded-lg bg-blue-600 text-white shadow-lg transition-all flex items-center"
+              >
+                <div
+                  class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center mr-3 font-bold"
+                >
+                  1
+                </div>
+                <div>
+                  <div class="font-bold">Demand & Order Gen</div>
+                  <div class="text-xs opacity-90">
+                    Chef requests -> AI Drafts PO
+                  </div>
+                </div>
+              </button>
+              <button
+                onclick="setJourneyStep(1)"
+                id="step-btn-1"
+                class="w-full text-left p-4 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 transition-all flex items-center"
+              >
+                <div
+                  class="w-8 h-8 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center mr-3 font-bold"
+                >
+                  2
+                </div>
+                <div>
+                  <div class="font-bold text-slate-800">Supplier Selection</div>
+                  <div class="text-xs text-slate-500">
+                    AI finds best price & splits POs
+                  </div>
+                </div>
+              </button>
+              <button
+                onclick="setJourneyStep(2)"
+                id="step-btn-2"
+                class="w-full text-left p-4 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 transition-all flex items-center"
+              >
+                <div
+                  class="w-8 h-8 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center mr-3 font-bold"
+                >
+                  3
+                </div>
+                <div>
+                  <div class="font-bold text-slate-800">Fulfillment & GRN</div>
+                  <div class="text-xs text-slate-500">
+                    Physical Check vs Digital Order
+                  </div>
+                </div>
+              </button>
+              <button
+                onclick="setJourneyStep(3)"
+                id="step-btn-3"
+                class="w-full text-left p-4 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 transition-all flex items-center"
+              >
+                <div
+                  class="w-8 h-8 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center mr-3 font-bold"
+                >
+                  4
+                </div>
+                <div>
+                  <div class="font-bold text-slate-800">Payment & Audit</div>
+                  <div class="text-xs text-slate-500">
+                    3-Way Match & Auto-Payment
+                  </div>
+                </div>
+              </button>
+            </div>
+
+            <!-- Right: Step Detail View -->
+            <div class="lg:col-span-8">
+              <div
+                id="journey-detail"
+                class="bg-slate-50 rounded-xl border border-slate-200 p-8 h-full"
+              >
+                <!-- Content injected via JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technical Architecture -->
     <section
-      id="roi"
-      class="py-20 bg-slate-900 text-white overflow-hidden mt-20"
+      id="architecture"
+      class="py-20 bg-slate-50 border-y border-slate-200"
     >
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold mb-4 text-center">
+          Technical Architecture
+        </h2>
+        <p class="text-slate-500 mb-12 max-w-3xl mx-auto text-center">
+          Built on a three-tier architecture: Experience Layer (Web/Mobile),
+          Intelligence Layer (AI Agent), and Transactional Layer (Medusa.js
+          Core).
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-10">
+          <div class="space-y-4">
+            <div
+              class="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center"
+            >
+              Experience
+            </div>
+            <div
+              onclick="showTech('restaurant')"
+              id="t-restaurant"
+              class="arch-block active p-5 bg-white rounded-2xl text-center"
+            >
+              <div class="font-bold">Restaurant App</div>
+              <div class="text-xs text-slate-500">Next.js / PWA</div>
+            </div>
+            <div
+              onclick="showTech('supplier')"
+              id="t-supplier"
+              class="arch-block p-5 bg-white rounded-2xl text-center"
+            >
+              <div class="font-bold">Supplier Portal</div>
+              <div class="text-xs text-slate-500">React Dashboard</div>
+            </div>
+          </div>
+          <div class="flex flex-col justify-center">
+            <div
+              onclick="showTech('gateway')"
+              id="t-gateway"
+              class="arch-block p-5 bg-indigo-50 border-indigo-200 rounded-2xl text-center h-48 flex flex-col justify-center"
+            >
+              <div class="font-bold text-indigo-900">API Gateway</div>
+              <div class="text-xs text-indigo-600">FastAPI / GraphQL</div>
+            </div>
+          </div>
+          <div class="space-y-4">
+            <div
+              class="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center"
+            >
+              Logic & Intelligence
+            </div>
+            <div
+              onclick="showTech('ai')"
+              id="t-ai"
+              class="arch-block p-5 bg-purple-50 border-purple-200 rounded-2xl text-center"
+            >
+              <div class="font-bold text-purple-900">AI Data Engine</div>
+              <div class="text-xs text-purple-600">LangChain / Python</div>
+            </div>
+            <div
+              onclick="showTech('core')"
+              id="t-core"
+              class="arch-block p-5 bg-blue-50 border-blue-200 rounded-2xl text-center"
+            >
+              <div class="font-bold text-blue-900">Core Commerce</div>
+              <div class="text-xs text-blue-600">Medusa.js / Node</div>
+            </div>
+          </div>
+          <div class="flex flex-col justify-center">
+            <div
+              onclick="showTech('db')"
+              id="t-db"
+              class="arch-block p-5 bg-slate-900 border-slate-700 rounded-2xl text-center text-white h-48 flex flex-col justify-center"
+            >
+              <div class="font-bold">Primary DB</div>
+              <div class="text-xs text-slate-400">PostgreSQL / Vector</div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          id="tech-panel"
+          class="bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm min-h-[160px]"
+        >
+          <!-- Tech detail injected here -->
+        </div>
+
+        <div
+          class="mt-10 bg-white rounded-[2.5rem] p-10 border border-slate-100"
+        >
+          <h4 class="font-bold text-slate-900 mb-4">SaaS Multi-tenancy</h4>
+          <p class="text-sm text-slate-500 mb-6 leading-relaxed">
+            Each restaurant group operates in an isolated environment while
+            benefiting from global SKU intelligence and price anonymized
+            benchmarks.
+          </p>
+          <div class="space-y-3">
+            <div
+              class="text-xs font-bold text-slate-400 uppercase tracking-widest"
+            >
+              Integrations
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <span
+                class="px-3 py-1 bg-slate-100 rounded-full text-xs font-bold text-slate-600"
+                >Foodics</span
+              >
+              <span
+                class="px-3 py-1 bg-slate-100 rounded-full text-xs font-bold text-slate-600"
+                >Xero</span
+              >
+              <span
+                class="px-3 py-1 bg-slate-100 rounded-full text-xs font-bold text-slate-600"
+                >Oracle MICROS</span
+              >
+              <span
+                class="px-3 py-1 bg-slate-100 rounded-full text-xs font-bold text-slate-600"
+                >WhatsApp API</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI Engine Demo (SKU Normalization) -->
+    <section id="ai-demo" class="py-24 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white relative overflow-hidden">
+      <!-- Background decoration -->
+      <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl"></div>
+        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500 rounded-full filter blur-3xl"></div>
+      </div>
+      
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+          <div class="lg:col-span-5">
+            <span class="inline-block px-4 py-1.5 bg-blue-500/20 text-blue-300 rounded-full text-xs font-semibold uppercase tracking-wider mb-6 border border-blue-400/30">🤖 AI Engine</span>
+            <h2 class="text-5xl md:text-6xl font-black mb-6 leading-tight">
+              Smart <span class="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">SKU Mapping</span>
+            </h2>
+            <p class="text-slate-300 text-lg mb-8 leading-relaxed">
+              The silent killer of F&B margins? <strong class="text-white">Inconsistent naming</strong>. One supplier calls it "Tomato 5kg Box", another "Fresh Tomatoes Loose". Our AI instantly normalizes everything.
+            </p>
+            <div class="space-y-4 mb-10">
+              <div class="flex items-start gap-4 bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/10">
+                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center flex-shrink-0 shadow-lg">
+                  <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="font-semibold text-white mb-1">Semantic Understanding</div>
+                  <div class="text-sm text-slate-400">AI reads context, not just keywords. "Tomato" = "Tomatos" = "Fresh Tomatoes"</div>
+                </div>
+              </div>
+              <div class="flex items-start gap-4 bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/10">
+                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center flex-shrink-0 shadow-lg">
+                  <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="font-semibold text-white mb-1">Unit Normalization</div>
+                  <div class="text-sm text-slate-400">Automatically converts "5kg box" and "loose kg" to comparable units</div>
+                </div>
+              </div>
+              <div class="flex items-start gap-4 bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/10">
+                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center flex-shrink-0 shadow-lg">
+                  <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="font-semibold text-white mb-1">True Price Comparison</div>
+                  <div class="text-sm text-slate-400">Compare suppliers apples-to-apples for the first time</div>
+                </div>
+              </div>
+            </div>
+            <button
+              onclick="runSim()"
+              class="group relative px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-2xl font-bold text-lg transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/50 hover:scale-105 overflow-hidden"
+            >
+              <span class="relative z-10 flex items-center gap-2">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+                </svg>
+                Run Live Demo
+              </span>
+              <div class="absolute inset-0 bg-gradient-to-r from-cyan-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            </button>
+          </div>
+          
+          <div class="lg:col-span-7">
+            <div class="bg-slate-800/80 backdrop-blur-xl rounded-3xl p-8 border border-slate-700 shadow-2xl">
+              <div class="flex justify-between items-center mb-6">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M13 7H7v6h6V7z"/>
+                      <path fill-rule="evenodd" d="M7 2a1 1 0 012 0v1h2V2a1 1 0 112 0v1h2a2 2 0 012 2v2h1a1 1 0 110 2h-1v2h1a1 1 0 110 2h-1v2a2 2 0 01-2 2h-2v1a1 1 0 11-2 0v-1H9v1a1 1 0 11-2 0v-1H5a2 2 0 01-2-2v-2H2a1 1 0 110-2h1V9H2a1 1 0 010-2h1V5a2 2 0 012-2h2V2zM5 5h10v10H5V5z" clip-rule="evenodd"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="text-white font-bold">SKU Normalization Engine</div>
+                    <div class="text-[10px] font-mono text-slate-500 tracking-widest uppercase">AI-Powered Semantic Matching</div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                  <span class="text-xs text-green-400 font-semibold">LIVE</span>
+                </div>
+              </div>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div class="bg-slate-950/50 p-6 rounded-2xl border border-slate-800">
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="w-6 h-6 rounded bg-red-500/20 flex items-center justify-center">
+                      <svg class="w-3 h-3 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                      </svg>
+                    </div>
+                    <div class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Raw Supplier Data</div>
+                  </div>
+                  <div id="sim-in" class="text-sm font-mono text-red-400 h-40 overflow-y-auto space-y-2">
+                    <div class="text-slate-500">Click "Run Demo" to start...</div>
+                  </div>
+                </div>
+                
+                <div class="bg-slate-950/50 p-6 rounded-2xl border border-emerald-800/30">
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="w-6 h-6 rounded bg-emerald-500/20 flex items-center justify-center">
+                      <svg class="w-3 h-3 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                      </svg>
+                    </div>
+                    <div class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Normalized Master SKU</div>
+                  </div>
+                  <div id="sim-out" class="text-sm font-mono text-emerald-400 h-40 overflow-y-auto">
+                    <div class="text-slate-600">...</div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center">
+                      <svg class="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <div id="sim-status" class="text-sm font-semibold text-blue-300">Ready to process</div>
+                      <div class="text-[10px] text-slate-500">LangChain + OpenAI + pgvector</div>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <div class="text-2xl font-black text-blue-400">< 0.3s</div>
+                    <div class="text-[10px] text-slate-500 uppercase tracking-wider">Avg Speed</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6-Sprint Roadmap -->
+    <section id="roadmap" class="py-20 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold mb-10 text-center">
+          Execution Roadmap: 6-Sprint Plan
+        </h2>
+        <p class="text-slate-500 mb-12 text-center max-w-2xl mx-auto">
+          12 weeks from Architecture to Audit Readiness. Each sprint delivers
+          tangible value.
+        </p>
+
+        <div class="flex flex-col lg:flex-row gap-16">
+          <div class="lg:w-1/3">
+            <div class="space-y-3" id="sprint-nav">
+              <!-- Navigation injected via JS -->
+            </div>
+          </div>
+          <div class="lg:w-2/3">
+            <div
+              id="sprint-content"
+              class="bg-slate-50 rounded-[2.5rem] p-10 border border-slate-200 h-full"
+            >
+              <!-- Detail injected via JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROI Calculator -->
+    <section id="roi" class="py-20 bg-slate-900 text-white overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold mb-4">SaaS Performance Estimator</h2>
+          <p class="text-slate-400 max-w-2xl mx-auto">
+            See how ProcureIQ scales its value across your entire portfolio.
+            Adjust the sliders to see the impact on your Bottom Line.
+          </p>
+        </div>
+
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
-            <h2 class="text-3xl font-bold mb-6">SaaS Performance Estimator</h2>
-            <p class="text-slate-400 mb-10">
-              See how Project X scales its value across your entire portfolio.
-              Adjust the sliders to see the impact on your Bottom Line.
-            </p>
-
             <div class="space-y-10">
               <div>
                 <div class="flex justify-between mb-4">
@@ -217,7 +1085,7 @@
                     >Number of Outlets</label
                   >
                   <span id="val-outlets" class="text-blue-400 font-bold text-xl"
-                    >5</span
+                    >10</span
                   >
                 </div>
                 <input
@@ -226,7 +1094,7 @@
                   min="1"
                   max="50"
                   step="1"
-                  value="5"
+                  value="10"
                   class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer"
                 />
               </div>
@@ -237,7 +1105,7 @@
                     >Avg. Monthly Spend per Outlet (AED)</label
                   >
                   <span id="val-spend" class="text-blue-400 font-bold text-xl"
-                    >80,000</span
+                    >150,000</span
                   >
                 </div>
                 <input
@@ -245,8 +1113,8 @@
                   id="input-spend"
                   min="10000"
                   max="500000"
-                  step="5000"
-                  value="80000"
+                  step="10000"
+                  value="150000"
                   class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer"
                 />
               </div>
@@ -266,7 +1134,7 @@
                   >Estimated Group Yearly Savings</span
                 >
                 <div id="total-savings" class="text-5xl font-black mt-2">
-                  AED 216,000
+                  AED 1,260,000
                 </div>
               </div>
               <div class="space-y-6">
@@ -280,7 +1148,7 @@
                     >
                   </div>
                   <span id="save-procure" class="font-bold text-emerald-400"
-                    >AED 108k</span
+                    >AED 810k</span
                   >
                 </div>
                 <div
@@ -293,7 +1161,7 @@
                     >
                   </div>
                   <span id="save-waste" class="font-bold text-blue-400"
-                    >AED 60k</span
+                    >AED 450k</span
                   >
                 </div>
                 <div
@@ -306,8 +1174,13 @@
                     >
                   </div>
                   <span id="save-admin" class="font-bold text-purple-400"
-                    >AED 48k</span
+                    >AED 144k</span
                   >
+                </div>
+              </div>
+              <div class="mt-8">
+                <div class="chart-container">
+                  <canvas id="roiChart"></canvas>
                 </div>
               </div>
             </div>
@@ -317,189 +1190,405 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-white py-12 border-t border-slate-200">
+    <footer
+      class="bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 py-16 border-t border-slate-800"
+    >
       <div class="max-w-7xl mx-auto px-4 text-center">
-        <div class="flex justify-center space-x-2 mb-6">
+        <div class="flex justify-center space-x-3 mb-6">
           <div
-            class="w-6 h-6 bg-slate-900 rounded flex items-center justify-center text-white text-[10px] font-bold"
+            class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center text-white text-sm font-bold shadow-lg"
           >
-            X
+            P
           </div>
-          <span class="font-bold text-slate-900">Project X Platforms</span>
+          <div class="text-left">
+            <div class="font-bold text-white text-lg">ProcureIQ</div>
+            <div class="text-blue-300 text-xs font-medium">
+              Intelligent Procurement AI
+            </div>
+          </div>
         </div>
-        <p class="text-slate-500 text-sm">
-          Empowering F&B operators across the UAE with Agentic Intelligence.
+        <p class="text-slate-300 text-sm mb-3 max-w-2xl mx-auto">
+          Empowering F&B operators across the UAE with intelligent, autonomous
+          procurement solutions.
         </p>
+        <p class="text-xs text-slate-500 mb-8">
+          Complete AI Procurement Platform • Built for Modern F&B Operations
+        </p>
+        <div
+          class="flex justify-center items-center space-x-4 text-xs text-slate-400"
+        >
+          <span>© 2026 ProcureIQ</span>
+          <span>•</span>
+          <span>All Rights Reserved</span>
+        </div>
       </div>
     </footer>
 
     <script>
       // --- State Management ---
-      let currentView = "value";
       let activeChart = null;
+      let roiChart = null;
 
-      // --- View Injection Logic ---
-      function showView(view) {
-        currentView = view;
-        const container = document.getElementById("view-container");
-        const tabVal = document.getElementById("tab-value");
-        const tabBlue = document.getElementById("tab-blueprint");
+      // --- Transformation Toggle Logic ---
+      const flows = {
+        current: {
+          title: "Manual Chaos (Old Way)",
+          color: "bg-red-50 border-red-200",
+          steps: [
+            {
+              icon: "👨‍🍳",
+              t: "Chef Checks",
+              d: "Manual stock check on paper/whiteboard.",
+            },
+            {
+              icon: "📱",
+              t: "WhatsApp",
+              d: "Sends 15 messages to different suppliers.",
+            },
+            {
+              icon: "🚚",
+              t: "Paper GRN",
+              d: "Driver drops boxes. Invoice is hand-written.",
+            },
+            {
+              icon: "📉",
+              t: "Leakage",
+              d: "Prices vary, items missing. 5-8% margin lost.",
+            },
+          ],
+        },
+        future: {
+          title: "AI Agent Control (New Way)",
+          color: "bg-blue-50 border-blue-200",
+          steps: [
+            {
+              icon: "📊",
+              t: "Auto-Demand",
+              d: "POS data predicts stock needs accurately.",
+            },
+            {
+              icon: "🤖",
+              t: "AI Splitting",
+              d: "Agent routes orders to best priced suppliers.",
+            },
+            {
+              icon: "📱",
+              t: "Digital GRN",
+              d: "Digital check-in at the door. 100% variance tracking.",
+            },
+            {
+              icon: "💰",
+              t: "3-Way Match",
+              d: "Clean data flows to Xero. No manual entry.",
+            },
+          ],
+        },
+      };
 
-        if (view === "value") {
-          tabVal.className =
-            "px-8 py-3 rounded-xl font-bold text-sm transition-all bg-white text-blue-600 shadow-sm";
-          tabBlue.className =
-            "px-8 py-3 rounded-xl font-bold text-sm text-slate-600 hover:text-slate-900 transition-all";
-          renderValueView(container);
+      function toggleFlow(mode) {
+        const container = document.getElementById("flow-container");
+        const data = flows[mode];
+        const tabCurrent = document.getElementById("tab-current");
+        const tabFuture = document.getElementById("tab-future");
+
+        if (mode === "current") {
+          tabCurrent.className =
+            "px-8 py-3.5 rounded-xl font-bold text-sm transition-all bg-gradient-to-r from-red-500 to-red-600 text-white shadow-md";
+          tabFuture.className =
+            "px-8 py-3.5 rounded-xl font-bold text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-all";
         } else {
-          tabBlue.className =
-            "px-8 py-3 rounded-xl font-bold text-sm transition-all bg-white text-blue-600 shadow-sm";
-          tabVal.className =
-            "px-8 py-3 rounded-xl font-bold text-sm text-slate-600 hover:text-slate-900 transition-all";
-          renderBlueprintView(container);
+          tabFuture.className =
+            "px-8 py-3.5 rounded-xl font-bold text-sm transition-all bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-md";
+          tabCurrent.className =
+            "px-8 py-3.5 rounded-xl font-bold text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-all";
         }
-        window.scrollTo({ top: 400, behavior: "smooth" });
-      }
 
-      // --- Value View Components ---
-      function renderValueView(container) {
         container.innerHTML = `
-                <div class="animate-fade">
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-                        <div class="glass-card p-6 rounded-3xl shadow-sm border border-slate-200">
-                            <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center text-xl mb-4">🗑️</div>
-                            <h3 class="font-bold text-slate-900">Waste Intelligence</h3>
-                            <p class="text-xs text-slate-500 mt-2">Flagging variance between POS sales and GRN intake.</p>
+                <h3 class="text-xl font-bold mb-6 text-center text-slate-800">${data.title}</h3>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    ${data.steps
+                      .map(
+                        (s) => `
+                        <div class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm text-center hover:shadow-md transition-shadow">
+                            <div class="text-4xl mb-4">${s.icon}</div>
+                            <div class="font-bold text-slate-900 mb-2">${s.t}</div>
+                            <div class="text-xs text-slate-500">${s.d}</div>
                         </div>
-                        <div class="glass-card p-6 rounded-3xl shadow-sm border border-slate-200">
-                            <div class="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center text-xl mb-4">💰</div>
-                            <h3 class="font-bold text-slate-900">Cost Reduction</h3>
-                            <p class="text-xs text-slate-500 mt-2">Automated benchmark across UAE supplier network.</p>
-                        </div>
-                        <div class="glass-card p-6 rounded-3xl shadow-sm border border-slate-200">
-                            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-xl mb-4">🔍</div>
-                            <h3 class="font-bold text-slate-900">Real-time Insights</h3>
-                            <p class="text-xs text-slate-500 mt-2">Item-level inflation tracking and menu engineering.</p>
-                        </div>
-                        <div class="glass-card p-6 rounded-3xl shadow-sm border border-slate-200">
-                            <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center text-xl mb-4">⚡</div>
-                            <h3 class="font-bold text-slate-900">Decision Speed</h3>
-                            <p class="text-xs text-slate-500 mt-2">PO approval workflows that take seconds, not hours.</p>
-                        </div>
-                    </div>
-
-                    <div class="bg-white rounded-[2.5rem] p-10 shadow-sm border border-slate-100">
-                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                            <div class="lg:col-span-7">
-                                <h2 class="text-3xl font-bold text-slate-900 mb-6">Unlocking Hidden Margins</h2>
-                                <p class="text-slate-600 mb-8 leading-relaxed">
-                                    Project X uses a "Theoretical vs Actual" (TvA) model. By connecting your POS and your Procurement, the AI identifies exactly where ingredients go missing—whether it's over-portioning in the kitchen or shrinkage in the store room.
-                                </p>
-                                <div class="space-y-4">
-                                    <div class="flex items-center p-4 bg-slate-50 rounded-2xl">
-                                        <span class="bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs mr-4">1</span>
-                                        <span class="text-sm font-medium">Automatic Price Matching to UAE Market Averages</span>
-                                    </div>
-                                    <div class="flex items-center p-4 bg-slate-50 rounded-2xl">
-                                        <span class="bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs mr-4">2</span>
-                                        <span class="text-sm font-medium">Predictive Ordering based on historical traffic patterns</span>
-                                    </div>
-                                    <div class="flex items-center p-4 bg-slate-50 rounded-2xl">
-                                        <span class="bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs mr-4">3</span>
-                                        <span class="text-sm font-medium">Digital GRN captures weight discrepancies on delivery</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="lg:col-span-5 bg-slate-50 p-6 rounded-3xl border border-slate-100">
-                                <div class="text-center text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Avg. Impact per Outlet</div>
-                                <div class="chart-container">
-                                    <canvas id="impactChart"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    `,
+                      )
+                      .join("")}
                 </div>
             `;
-        initImpactChart();
       }
 
-      // --- Blueprint View Components ---
-      function renderBlueprintView(container) {
+      // --- User Journey Logic ---
+      const journeySteps = [
+        {
+          title: "Demand & Order Generation",
+          role: "Role: Head Chef / Store Manager",
+          content:
+            "The process starts with identifying what's needed. Instead of walking the fridge with a clipboard, the system suggests orders based on POS data, menu recipe cards, and par levels.",
+          features: [
+            "POS Integration (Sales Data)",
+            "Menu Recipe Cards",
+            "Par Levels Logic",
+          ],
+          tech: "AI forecasting model (Prophet/ARIMA) analyzes sales trends to predict ingredient usage.",
+        },
+        {
+          title: "Supplier Selection & PO Splitting",
+          role: "Role: AI Agent (Procurement)",
+          content:
+            "The Agent takes the master shopping list (e.g., 50 items) and checks connected suppliers. It splits the list to ensure the best price and availability.",
+          features: [
+            "Price Comparison Matrix",
+            "Supplier Availability Check",
+            "LPO Generation",
+          ],
+          tech: "Greedy algorithm for optimization. Communication via Email/WhatsApp API.",
+        },
+        {
+          title: "Fulfillment & GRN (Goods Received Note)",
+          role: "Role: Receiver / Chef",
+          content:
+            "Delivery arrives. The Chef opens the app. The digital LPO is there. They check items. If 5kg tomatoes ordered but 4kg received, they edit the Qty. This creates the GRN.",
+          features: [
+            "Mobile App Input",
+            "Variance Flagging",
+            "Digital Signature",
+          ],
+          tech: "Real-time DB update. 'GRN is Truth' logic locks the payable amount.",
+        },
+        {
+          title: "Payment & Reconciliation",
+          role: "Role: Accountant / System",
+          content:
+            "The system matches the Supplier Invoice against the GRN (not the PO). If they match within tolerance, it approves payment.",
+          features: [
+            "3-Way Matching",
+            "Integration with Xero/Quickbooks",
+            "Credit Period Mgmt",
+          ],
+          tech: "Automated workflow rules. Alerts for discrepancies > 5%.",
+        },
+      ];
+
+      function setJourneyStep(index) {
+        // Update Buttons
+        for (let i = 0; i < 4; i++) {
+          const btn = document.getElementById(`step-btn-${i}`);
+          const circle = btn.querySelector("div:first-child");
+          if (i === index) {
+            btn.className =
+              "w-full text-left p-4 rounded-lg bg-blue-600 text-white shadow-lg transition-all flex items-center transform scale-105";
+            circle.className =
+              "w-8 h-8 rounded-full bg-white/20 flex items-center justify-center mr-3 font-bold";
+          } else {
+            btn.className =
+              "w-full text-left p-4 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 transition-all flex items-center";
+            circle.className =
+              "w-8 h-8 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center mr-3 font-bold";
+          }
+        }
+
+        // Update Content
+        const step = journeySteps[index];
+        const container = document.getElementById("journey-detail");
         container.innerHTML = `
-                <div class="animate-fade">
-                    <div class="bg-white rounded-[2.5rem] p-10 shadow-sm border border-slate-100 mb-10">
-                        <h2 class="text-3xl font-bold text-slate-900 mb-4 text-center">The Agentic AI Workflow</h2>
-                        <p class="text-slate-500 text-center mb-12 max-w-2xl mx-auto">How the "Digital Procurement Manager" handles the lifecycle from request to payment.</p>
+                <div class="h-full flex flex-col justify-between animate-fade">
+                    <div>
+                        <div class="inline-block px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-bold mb-4 uppercase tracking-wide">${step.role}</div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-4">${step.title}</h3>
+                        <p class="text-lg text-slate-600 mb-6 leading-relaxed">${step.content}</p>
                         
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 relative">
-                            <!-- Step 1 -->
-                            <div class="p-6 rounded-3xl border-2 border-slate-100 hover:border-blue-500 transition cursor-pointer group">
-                                <div class="text-blue-600 font-black text-4xl mb-4 opacity-20 group-hover:opacity-100 transition">01</div>
-                                <h4 class="font-bold text-slate-900">Demand Sync</h4>
-                                <p class="text-xs text-slate-500 mt-2">AI pulls POS/Inventory data to forecast needs.</p>
-                            </div>
-                            <!-- Step 2 -->
-                            <div class="p-6 rounded-3xl border-2 border-slate-100 hover:border-blue-500 transition cursor-pointer group">
-                                <div class="text-blue-600 font-black text-4xl mb-4 opacity-20 group-hover:opacity-100 transition">02</div>
-                                <h4 class="font-bold text-slate-900">Market Benchmarking</h4>
-                                <p class="text-xs text-slate-500 mt-2">Agent splits the PO between suppliers for best price.</p>
-                            </div>
-                            <!-- Step 3 -->
-                            <div class="p-6 rounded-3xl border-2 border-slate-100 hover:border-blue-500 transition cursor-pointer group">
-                                <div class="text-blue-600 font-black text-4xl mb-4 opacity-20 group-hover:opacity-100 transition">03</div>
-                                <h4 class="font-bold text-slate-900">Digital Receiving</h4>
-                                <p class="text-xs text-slate-500 mt-2">Mobile GRN checks weights/quality at the door.</p>
-                            </div>
-                            <!-- Step 4 -->
-                            <div class="p-6 rounded-3xl border-2 border-slate-100 hover:border-blue-500 transition cursor-pointer group">
-                                <div class="text-blue-600 font-black text-4xl mb-4 opacity-20 group-hover:opacity-100 transition">04</div>
-                                <h4 class="font-bold text-slate-900">3-Way Match</h4>
-                                <p class="text-xs text-slate-500 mt-2">PO = GRN = Invoice. Auto-approve for payment.</p>
+                        <div class="bg-white rounded-lg p-5 border border-slate-200 mb-6">
+                            <h4 class="font-bold text-slate-800 mb-3 text-sm">Key Modules Active:</h4>
+                            <div class="flex flex-wrap gap-2">
+                                ${step.features.map((f) => `<span class="px-3 py-1 bg-slate-50 border border-slate-300 rounded text-sm text-slate-600">${f}</span>`).join("")}
                             </div>
                         </div>
                     </div>
-
-                    <!-- Architecture Diagram -->
-                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-10">
-                        <div class="lg:col-span-8 bg-slate-900 rounded-[2.5rem] p-10 text-white">
-                            <h3 class="text-xl font-bold mb-8">Technical Architecture Stack</h3>
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <div class="p-6 rounded-2xl bg-slate-800 border border-slate-700 arch-node">
-                                    <div class="text-blue-400 text-xs font-bold uppercase mb-2">Frontend</div>
-                                    <div class="font-bold">Next.js PWA</div>
-                                    <div class="text-[10px] text-slate-500 mt-1">Tailwind / Offline Sync</div>
-                                </div>
-                                <div class="p-6 rounded-2xl bg-blue-600 border border-blue-400 arch-node">
-                                    <div class="text-white/70 text-xs font-bold uppercase mb-2">AI Engine</div>
-                                    <div class="font-bold">FastAPI / LangChain</div>
-                                    <div class="text-[10px] text-white/70 mt-1">Vector DB / SKU Mapping</div>
-                                </div>
-                                <div class="p-6 rounded-2xl bg-slate-800 border border-slate-700 arch-node">
-                                    <div class="text-blue-400 text-xs font-bold uppercase mb-2">Persistence</div>
-                                    <div class="font-bold">PostgreSQL</div>
-                                    <div class="text-[10px] text-slate-500 mt-1">Multi-tenant Schema</div>
-                                </div>
-                                <div class="md:col-span-3 p-6 rounded-2xl bg-slate-800/50 border border-slate-700 text-center italic text-sm text-slate-400">
-                                    The core system is built on a Headless Commerce foundation (Medusa.js) with custom procurement modules for many-to-many order routing.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="lg:col-span-4 bg-white rounded-[2.5rem] p-10 border border-slate-100 flex flex-col justify-center">
-                            <h4 class="font-bold text-slate-900 mb-4">SaaS Multi-tenancy</h4>
-                            <p class="text-sm text-slate-500 mb-6 leading-relaxed">Each restaurant group operates in an isolated environment while benefiting from global SKU intelligence and price anonymized benchmarks.</p>
-                            <div class="space-y-3">
-                                <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Integrations</div>
-                                <div class="flex flex-wrap gap-2">
-                                    <span class="px-3 py-1 bg-slate-100 rounded-full text-xs font-bold text-slate-600">Foodics</span>
-                                    <span class="px-3 py-1 bg-slate-100 rounded-full text-xs font-bold text-slate-600">Xero</span>
-                                    <span class="px-3 py-1 bg-slate-100 rounded-full text-xs font-bold text-slate-600">Oracle MICROS</span>
-                                    <span class="px-3 py-1 bg-slate-100 rounded-full text-xs font-bold text-slate-600">WhatsApp API</span>
-                                </div>
+                    <div class="border-t border-slate-200 pt-4 mt-auto">
+                        <div class="flex items-start">
+                            <span class="text-xl mr-2">⚙️</span>
+                            <div>
+                                <span class="font-bold text-slate-800 text-sm">Under the Hood:</span>
+                                <p class="text-sm text-slate-500 mt-1">${step.tech}</p>
                             </div>
                         </div>
                     </div>
                 </div>
             `;
+      }
+
+      // --- Tech Detail Logic ---
+      const techs = {
+        restaurant: {
+          t: "Restaurant PWA",
+          d: "A high-performance mobile-first app for Chefs to receive goods and perform stock-takes. Uses Next.js for SSR and offline-first capabilities with IndexedDB.",
+        },
+        supplier: {
+          t: "Supplier Portal",
+          d: "Web-based dashboard for suppliers to confirm orders, update pricing, and view demand forecasts. React + Tailwind. Must be simple for low-tech adoption.",
+        },
+        gateway: {
+          t: "Unified API Gateway",
+          d: "Central node using FastAPI (Python) or GraphQL to route requests between the frontend apps and the Medusa.js core. Handles security and rate limiting.",
+        },
+        ai: {
+          t: "AI Engine",
+          d: "The 'Brain'. Uses LangChain for SKU normalization, OpenAI for text-to-data parsing, and Prophet for demand forecasting. Vectorizes messy strings for semantic search.",
+        },
+        core: {
+          t: "Medusa.js Core",
+          d: "Headless commerce engine. Handles the 'Transactional' side: Users, Carts, Orders, and Multi-tenant partitioning. Extended with custom procurement modules.",
+        },
+        db: {
+          t: "Persistence Layer",
+          d: "PostgreSQL for relational order data + pgvector for semantic SKU matching and search. ACID compliance for financial transactions.",
+        },
+      };
+
+      function showTech(id) {
+        document
+          .querySelectorAll(".arch-block")
+          .forEach((b) => b.classList.remove("active"));
+        document.getElementById(`t-${id}`).classList.add("active");
+        const data = techs[id];
+        document.getElementById("tech-panel").innerHTML = `
+                <h3 class="text-xl font-bold mb-2">${data.t}</h3>
+                <p class="text-slate-600 leading-relaxed">${data.d}</p>
+            `;
+      }
+
+      // --- Sprint Roadmap Logic ---
+      const sprints = [
+        {
+          id: 1,
+          t: "SaaS Foundation",
+          d: "Multi-tenant logic and Auth core. Setting up the 'Group vs Outlet' hierarchy. Establishing database schemas and user management.",
+          tech: "Medusa.js, PostgreSQL, Auth0",
+        },
+        {
+          id: 2,
+          t: "AI SKU Engine",
+          d: "Normalization logic. Mapping supplier items to Master SKUs using LangChain. Building the semantic search layer for product matching.",
+          tech: "Python, OpenAI, LangChain, pgvector",
+        },
+        {
+          id: 3,
+          t: "Order Flow (LPO)",
+          d: "Digital PO generation and multi-supplier routing engine. Implementing the core ordering workflow with supplier communication.",
+          tech: "Node.js, WhatsApp API, Email",
+        },
+        {
+          id: 4,
+          t: "Mobile Receiver",
+          d: "Digital GRN (Goods Received Note) app for backdoor validation. Offline-first PWA for capturing deliveries in real-time.",
+          tech: "Next.js, PWA, IndexedDB",
+        },
+        {
+          id: 5,
+          t: "Agentic Predictive",
+          d: "Predictive demand forecasting and auto-drafting orders. ML models analyzing POS data to prevent stockouts and overordering.",
+          tech: "Prophet ML, VectorDB, Python",
+        },
+        {
+          id: 6,
+          t: "Audit & Finance",
+          d: "3-Way Matching and Foodics POS real-time sync. Complete financial reconciliation and integration with accounting systems.",
+          tech: "Xero API, Foodics API, Webhooks",
+        },
+      ];
+
+      function showSprint(id) {
+        const s = sprints.find((x) => x.id === id);
+        document
+          .querySelectorAll(".sprint-card")
+          .forEach((b) => b.classList.remove("active"));
+        document.getElementById(`s-${id}`).classList.add("active");
+        document.getElementById("sprint-content").innerHTML = `
+                <div class="flex justify-between items-start mb-6">
+                    <span class="text-blue-600 font-bold uppercase tracking-widest text-xs">Sprint ${s.id}</span>
+                    <span class="text-slate-400 font-mono text-xs">${s.tech}</span>
+                </div>
+                <h3 class="text-3xl font-bold mb-6">${s.t}</h3>
+                <p class="text-lg text-slate-600 leading-relaxed mb-8">${s.d}</p>
+                <div class="p-6 bg-white rounded-2xl border border-slate-100 italic text-sm text-slate-500">
+                    Acceptance Test: "Can the system correctly perform ${s.t.toLowerCase()} for a multi-tenant user?"
+                </div>
+            `;
+      }
+
+      // --- AI Simulation ---
+      async function runSim() {
+        const input = document.getElementById("sim-in");
+        const output = document.getElementById("sim-out");
+        const status = document.getElementById("sim-status");
+
+        const rawExamples = [
+          { text: "Tomato Cherry Box 1KG", color: "text-red-400" },
+          { text: "Fresh Tomatoes (Loose) per kg", color: "text-red-300" },
+          { text: "TOMATOS RED 5KG BOX", color: "text-red-400" },
+          { text: "Organic Tomato - Netherlands 500g", color: "text-red-300" },
+          { text: "Roma Tomatoes Bulk Carton", color: "text-red-400" },
+        ];
+
+        const normalizedOutput = {
+          sku: "VEG-TOM-001",
+          name: "Tomato (Fresh)",
+          category: "Vegetables > Fresh Produce",
+          baseUnit: "KG",
+          confidence: "97.8%",
+          variants: "5 supplier variants detected"
+        };
+
+        input.innerHTML = "";
+        output.innerHTML = "";
+        status.innerHTML = '<span class=\"flex items-center gap-2\"><svg class=\"w-4 h-4 text-blue-400 animate-spin\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><circle class=\"opacity-25\" cx=\"12\" cy=\"12\" r=\"10\" stroke=\"currentColor\" stroke-width=\"4\"></circle><path class=\"opacity-75\" fill=\"currentColor\" d=\"M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z\"></path></svg> Processing semantic matching...</span>';
+
+        // Animate raw inputs
+        for (let item of rawExamples) {
+          await new Promise((r) => setTimeout(r, 400));
+          input.innerHTML += `<div class=\"${item.color} mb-1 pl-2 border-l-2 border-red-500/20\">▸ ${item.text}</div>`;
+        }
+
+        status.innerHTML = '<span class=\"flex items-center gap-2\"><svg class=\"w-4 h-4 text-purple-400 animate-spin\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><circle class=\"opacity-25\" cx=\"12\" cy=\"12\" r=\"10\" stroke=\"currentColor\" stroke-width=\"4\"></circle><path class=\"opacity-75\" fill=\"currentColor\" d=\"M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z\"></path></svg> Normalizing units...</span>';
+        await new Promise((r) => setTimeout(r, 700));
+
+        status.innerHTML = '<span class=\"flex items-center gap-2\"><svg class=\"w-4 h-4 text-cyan-400 animate-spin\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><circle class=\"opacity-25\" cx=\"12\" cy=\"12\" r=\"10\" stroke=\"currentColor\" stroke-width=\"4\"></circle><path class=\"opacity-75\" fill=\"currentColor\" d=\"M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z\"></path></svg> Mapping to Master SKU...</span>';
+        await new Promise((r) => setTimeout(r, 700));
+
+        // Show normalized output
+        output.innerHTML = `
+          <div class=\"space-y-3\">
+            <div class=\"bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-3\">
+              <div class=\"text-[10px] text-emerald-500 uppercase tracking-wider mb-1\">Master SKU</div>
+              <div class=\"text-lg font-bold text-emerald-300\">${normalizedOutput.sku}</div>
+              <div class=\"text-sm text-emerald-400 mt-1\">${normalizedOutput.name}</div>
+            </div>
+            <div class=\"text-xs space-y-1.5 text-slate-400\">
+              <div class=\"flex justify-between\">
+                <span>Category:</span>
+                <span class=\"text-slate-300\">${normalizedOutput.category}</span>
+              </div>
+              <div class=\"flex justify-between\">
+                <span>Base Unit:</span>
+                <span class=\"text-blue-400 font-semibold\">${normalizedOutput.baseUnit}</span>
+              </div>
+              <div class=\"flex justify-between\">
+                <span>Confidence:</span>
+                <span class=\"text-emerald-400 font-bold\">${normalizedOutput.confidence}</span>
+              </div>
+              <div class=\"flex justify-between\">
+                <span>Variants:</span>
+                <span class=\"text-purple-400\">${normalizedOutput.variants}</span>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        status.innerHTML = '<span class=\"flex items-center gap-2\"><svg class=\"w-5 h-5 text-emerald-400\" fill=\"currentColor\" viewBox=\"0 0 20 20\"><path fill-rule=\"evenodd\" d=\"M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z\" clip-rule=\"evenodd\"/></svg> <span class=\"font-semibold text-emerald-400\">Mapping Complete</span> <span class=\"text-slate-500\">• Ready for price comparison</span></span>';
       }
 
       // --- Charts Implementation ---
@@ -509,22 +1598,31 @@
         activeChart = new Chart(ctx, {
           type: "bar",
           data: {
-            labels: ["Manual Procurement", "Project X AI"],
+            labels: ["Manual Procurement", "ProcureIQ AI"],
             datasets: [
               {
                 label: "Inventory Waste",
                 data: [12, 3],
-                backgroundColor: "#f87171",
+                backgroundColor: "rgba(248, 113, 113, 0.8)",
+                borderColor: "rgba(239, 68, 68, 1)",
+                borderWidth: 2,
+                borderRadius: 8,
               },
               {
                 label: "Admin Overhead",
                 data: [15, 2],
-                backgroundColor: "#fbbf24",
+                backgroundColor: "rgba(251, 191, 36, 0.8)",
+                borderColor: "rgba(245, 158, 11, 1)",
+                borderWidth: 2,
+                borderRadius: 8,
               },
               {
                 label: "Purchase Variance",
                 data: [8, 1],
-                backgroundColor: "#60a5fa",
+                backgroundColor: "rgba(96, 165, 250, 0.8)",
+                borderColor: "rgba(59, 130, 246, 1)",
+                borderWidth: 2,
+                borderRadius: 8,
               },
             ],
           },
@@ -533,14 +1631,48 @@
             plugins: {
               legend: {
                 position: "bottom",
-                labels: { boxWidth: 10, font: { size: 10 } },
+                labels: {
+                  boxWidth: 15,
+                  font: { size: 12, weight: "600" },
+                  padding: 15,
+                  usePointStyle: true,
+                  pointStyle: "circle",
+                },
+              },
+              tooltip: {
+                backgroundColor: "rgba(0, 0, 0, 0.8)",
+                padding: 12,
+                cornerRadius: 8,
+                titleFont: { size: 14, weight: "bold" },
+                bodyFont: { size: 13 },
+                displayColors: true,
+                callbacks: {
+                  label: function (context) {
+                    return (
+                      context.dataset.label +
+                      ": " +
+                      context.parsed.y +
+                      "% of COGS"
+                    );
+                  },
+                },
               },
             },
             scales: {
-              x: { stacked: true },
+              x: {
+                stacked: true,
+                grid: { display: false },
+                ticks: { font: { size: 12, weight: "600" } },
+              },
               y: {
                 stacked: true,
-                title: { display: true, text: "% of COGS Leakage" },
+                title: {
+                  display: true,
+                  text: "% of COGS Leakage",
+                  font: { size: 13, weight: "bold" },
+                },
+                grid: { color: "rgba(0, 0, 0, 0.05)" },
+                ticks: { font: { size: 11 } },
               },
             },
           },
@@ -566,14 +1698,34 @@
 
         const total = procureSave + wasteSave + adminSave;
 
-        document.getElementById("save-procure").innerText =
-          `AED ${(procureSave / 1000).toFixed(0)}k`;
-        document.getElementById("save-waste").innerText =
-          `AED ${(wasteSave / 1000).toFixed(0)}k`;
-        document.getElementById("save-admin").innerText =
-          `AED ${(adminSave / 1000).toFixed(0)}k`;
-        document.getElementById("total-savings").innerText =
-          `AED ${Math.round(total).toLocaleString()}`;
+        document.getElementById("save-procure").innerText = `AED ${(
+          procureSave / 1000
+        ).toFixed(0)}k`;
+        document.getElementById("save-waste").innerText = `AED ${(
+          wasteSave / 1000
+        ).toFixed(0)}k`;
+        document.getElementById("save-admin").innerText = `AED ${(
+          adminSave / 1000
+        ).toFixed(0)}k`;
+        document.getElementById("total-savings").innerText = `AED ${Math.round(
+          total,
+        ).toLocaleString()}`;
+
+        // Update ROI Chart
+        if (roiChart) {
+          const foodCost = 75;
+          const wastePercent = (wasteSave / totalSpend) * 100;
+          const adminPercent = (adminSave / totalSpend) * 100;
+          const recoveredPercent = (procureSave / totalSpend) * 100;
+
+          roiChart.data.datasets[0].data = [
+            foodCost,
+            wastePercent,
+            adminPercent,
+            recoveredPercent,
+          ];
+          roiChart.update();
+        }
       }
 
       // Helpers
@@ -583,7 +1735,87 @@
 
       // Init
       window.onload = () => {
-        showView("value");
+        toggleFlow("current");
+        showTech("restaurant");
+        setJourneyStep(0);
+
+        // Render Sprint Nav
+        const nav = document.getElementById("sprint-nav");
+        sprints.forEach((s) => {
+          nav.innerHTML += `
+                    <div onclick="showSprint(${s.id})" id="s-${s.id}" class="sprint-card p-4 rounded-xl">
+                        <div class="text-[10px] font-bold text-slate-400">SPRINT 0${s.id}</div>
+                        <div class="font-bold text-sm">${s.t}</div>
+                    </div>
+                `;
+        });
+        showSprint(1);
+
+        // Initialize Charts
+        initImpactChart();
+
+        const ctx2 = document.getElementById("roiChart").getContext("2d");
+        roiChart = new Chart(ctx2, {
+          type: "doughnut",
+          data: {
+            labels: [
+              "Food Cost",
+              "Manual Waste",
+              "Admin Labor",
+              "Recovered Margin",
+            ],
+            datasets: [
+              {
+                data: [75, 12, 10, 3],
+                backgroundColor: [
+                  "rgba(148, 163, 184, 0.3)",
+                  "rgba(248, 113, 113, 0.85)",
+                  "rgba(251, 191, 36, 0.85)",
+                  "rgba(34, 197, 94, 0.85)",
+                ],
+                borderColor: [
+                  "rgba(148, 163, 184, 0.5)",
+                  "rgba(239, 68, 68, 1)",
+                  "rgba(245, 158, 11, 1)",
+                  "rgba(22, 163, 74, 1)",
+                ],
+                borderWidth: 3,
+                hoverOffset: 15,
+                hoverBorderWidth: 4,
+              },
+            ],
+          },
+          options: {
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: "bottom",
+                labels: {
+                  boxWidth: 15,
+                  font: { size: 12, weight: "600" },
+                  padding: 12,
+                  usePointStyle: true,
+                  pointStyle: "circle",
+                },
+              },
+              tooltip: {
+                backgroundColor: "rgba(0, 0, 0, 0.85)",
+                padding: 14,
+                cornerRadius: 10,
+                titleFont: { size: 14, weight: "bold" },
+                bodyFont: { size: 13 },
+                displayColors: true,
+                callbacks: {
+                  label: function (context) {
+                    return context.label + ": " + context.parsed + "%";
+                  },
+                },
+              },
+            },
+            cutout: "72%",
+          },
+        });
+
         calculateROI();
 
         // Slider listeners
