@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project X | Digital Procurement Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+        .sidebar { width: 260px; height: 100vh; position: fixed; background: #0f172a; color: white; }
+        .main-content { margin-left: 260px; padding: 2rem; width: calc(100% - 260px); }
+        .card { background: white; border-radius: 12px; border: 1px solid #e2e8f0; padding: 1.5rem; }
+        .nav-item { padding: 0.75rem 1rem; border-radius: 8px; display: flex; items-center; margin-bottom: 0.5rem; transition: all 0.2s; cursor: pointer; color: #94a3b8; }
+        .nav-item:hover { background: #1e293b; color: white; }
+        .nav-item.active { background: #3b82f6; color: white; }
+        .status-pill { padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; }
+        .status-match { background: #dcfce7; color: #166534; }
+        .status-mismatch { background: #fee2e2; color: #991b1b; }
+        .ai-glow { box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); border: 1px solid #3b82f6; }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar flex flex-col p-4">
+        <div class="flex items-center space-x-3 mb-10 px-2">
+            <div class="w-8 h-8 bg-blue-500 rounded flex items-center justify-center font-bold">X</div>
+            <span class="text-xl font-bold tracking-tight">Project X</span>
+        </div>
+
+        <nav class="flex-grow">
+            <div class="nav-item active">
+                <span class="mr-3">📊</span> Dashboard
+            </div>
+            <div class="nav-item">
+                <span class="mr-3">🛒</span> Purchase Orders
+            </div>
+            <div class="nav-item">
+                <span class="mr-3">📦</span> Inventory & GRN
+            </div>
+            <div class="nav-item">
+                <span class="mr-3">🤖</span> AI SKU Mapper
+            </div>
+            <div class="nav-item">
+                <span class="mr-3">🏬</span> Suppliers
+            </div>
+            <div class="nav-item">
+                <span class="mr-3">⚙️</span> Settings
+            </div>
+        </nav>
+
+        <div class="mt-auto p-4 bg-slate-800 rounded-xl">
+            <div class="text-[10px] text-slate-400 uppercase tracking-widest mb-2">Connected Outlet</div>
+            <div class="font-bold text-sm">Downtown Bistro - DXB</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="flex justify-between items-end mb-8">
+            <div>
+                <h1 class="text-2xl font-bold text-slate-900">Procurement Overview</h1>
+                <p class="text-slate-500 text-sm">Real-time spend and audit metrics.</p>
+            </div>
+            <div class="flex space-x-3">
+                <button class="bg-white border border-slate-200 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-slate-50 transition">Export Report</button>
+                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition">+ Create PO</button>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="card">
+                <div class="text-xs font-bold text-slate-400 uppercase mb-2">Total Monthly Spend</div>
+                <div class="text-2xl font-bold">AED 142,500</div>
+                <div class="text-xs text-emerald-500 mt-2 font-semibold">↑ 4.2% vs last month</div>
+            </div>
+            <div class="card">
+                <div class="text-xs font-bold text-slate-400 uppercase mb-2">Margin Leakage Prevention</div>
+                <div class="text-2xl font-bold">AED 8,420</div>
+                <div class="text-xs text-blue-500 mt-2 font-semibold">via AI Price Benchmarking</div>
+            </div>
+            <div class="card">
+                <div class="text-xs font-bold text-slate-400 uppercase mb-2">Audit Status</div>
+                <div class="text-2xl font-bold">94.2%</div>
+                <div class="text-xs text-slate-400 mt-2 font-semibold">3-Way Match Success</div>
+            </div>
+            <div class="card ai-glow">
+                <div class="text-xs font-bold text-blue-500 uppercase mb-2">AI SKU Normalization</div>
+                <div class="text-2xl font-bold">1,240</div>
+                <div class="text-xs text-slate-400 mt-2 font-semibold">Cleaned Master SKUs</div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Spend Chart (Reference Style) -->
+            <div class="card lg:col-span-2">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-bold text-slate-800">Spend Distribution by Category</h3>
+                    <select class="bg-slate-50 border border-slate-200 text-xs p-1 rounded">
+                        <option>Last 30 Days</option>
+                        <option>Last Quarter</option>
+                    </select>
+                </div>
+                <div class="h-64 relative">
+                    <canvas id="spendChart"></canvas>
+                </div>
+            </div>
+
+            <!-- AI Engine Logic Box -->
+            <div class="card bg-slate-900 text-white">
+                <h3 class="font-bold mb-4 flex items-center">
+                    <span class="mr-2">🤖</span> AI SKU Mapper
+                </h3>
+                <div class="space-y-4">
+                    <div class="p-3 bg-white/5 rounded-lg border border-white/10">
+                        <div class="text-[10px] text-slate-400 mb-1">UNMATCHED INPUT (SUPPLIER A)</div>
+                        <div class="text-sm font-mono text-red-400">"Toms Red 5kg Box"</div>
+                    </div>
+                    <div class="flex justify-center text-blue-400">
+                        <span>↓ Mapping Agent ↓</span>
+                    </div>
+                    <div class="p-3 bg-blue-500/10 rounded-lg border border-blue-500/30">
+                        <div class="text-[10px] text-blue-300 mb-1">MASTER SKU IDENTIFIED</div>
+                        <div class="text-sm font-bold text-blue-100 uppercase tracking-wide">VEG-TOM-01: Fresh Tomato (KG)</div>
+                    </div>
+                    <div class="text-xs text-slate-500 italic text-center mt-2">
+                        Normalization eliminates "invisible" overspending.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3-Way Match Table (Operational View) -->
+        <div class="mt-8 card overflow-hidden">
+            <h3 class="font-bold text-slate-800 mb-4">Recent Audit Reconciliations (3-Way Match)</h3>
+            <table class="w-full text-left text-sm border-collapse">
+                <thead>
+                    <tr class="bg-slate-50 border-y border-slate-200 text-slate-400 text-[10px] uppercase font-bold tracking-widest">
+                        <th class="p-4">Reference</th>
+                        <th class="p-4">Supplier</th>
+                        <th class="p-4">PO Status</th>
+                        <th class="p-4">GRN Check</th>
+                        <th class="p-4">Invoice Match</th>
+                        <th class="p-4 text-right">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    <tr>
+                        <td class="p-4 font-bold text-slate-900">PO-4829</td>
+                        <td class="p-4 text-slate-600">Prime Meats DXB</td>
+                        <td class="p-4"><span class="status-pill status-match">Released</span></td>
+                        <td class="p-4"><span class="status-pill status-match">Matched</span></td>
+                        <td class="p-4 text-emerald-600 font-bold">100% OK</td>
+                        <td class="p-4 text-right"><button class="text-blue-600 hover:underline">View</button></td>
+                    </tr>
+                    <tr>
+                        <td class="p-4 font-bold text-slate-900">PO-4830</td>
+                        <td class="p-4 text-slate-600">Green Leaf Veg</td>
+                        <td class="p-4"><span class="status-pill status-match">Released</span></td>
+                        <td class="p-4"><span class="status-pill status-mismatch">Qty Variance</span></td>
+                        <td class="p-4 text-red-600 font-bold">Audit Flag</td>
+                        <td class="p-4 text-right"><button class="text-blue-600 hover:underline">Resolve</button></td>
+                    </tr>
+                    <tr>
+                        <td class="p-4 font-bold text-slate-900">PO-4831</td>
+                        <td class="p-4 text-slate-600">Ocean Catch</td>
+                        <td class="p-4"><span class="status-pill status-match">Released</span></td>
+                        <td class="p-4"><span class="status-pill status-match">Matched</span></td>
+                        <td class="p-4 text-emerald-600 font-bold">100% OK</td>
+                        <td class="p-4 text-right"><button class="text-blue-600 hover:underline">View</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('spendChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Meats', 'Vegetables', 'Dairy', 'Dry Goods', 'Beverages', 'Packaging'],
+                datasets: [{
+                    label: 'Spend (AED)',
+                    data: [42000, 28000, 19000, 15000, 22000, 16500],
+                    backgroundColor: '#3b82f6',
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { beginAtZero: true, grid: { borderDash: [5, 5] } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
